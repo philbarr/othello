@@ -3,7 +3,7 @@ package com.ou.pbarr.tree;
 import java.util.List;
 
 
-public interface Strategy
+public interface SearchStrategy
 {
 	/**
 	 * 

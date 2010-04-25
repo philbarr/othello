@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
-public class BreadthFirstStrategy implements SearchStrategy
+public class BreadthFirstSearchStrategy implements SearchStrategy
 {
 
 	public List<Tree<?>.Node> search(Tree<?>.Node start, Tree<?>.Node goal)

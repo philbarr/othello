@@ -73,7 +73,7 @@ public class TreeTest
 	@Test
 	public void testBreadthFirstStrategy()
 	{
-		BreadthFirstStrategy bfs = new BreadthFirstStrategy();
+		BreadthFirstSearchStrategy bfs = new BreadthFirstSearchStrategy();
 		List<Tree<Integer>.Node> expected = new ArrayList<Tree<Integer>.Node>();
 		expected.add(tree.getRoot());
 		expected.add(n3);

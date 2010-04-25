@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Tree<T>
 {
-	Strategy strategy;
+	SearchStrategy strategy;
 	Node root;
 
 	public Tree(T state)
@@ -18,7 +18,7 @@ public class Tree<T>
 		return root;
 	}
 
-	public void setStrategy(Strategy strategy)
+	public void setStrategy(SearchStrategy strategy)
 	{
 		this.strategy = strategy;
 	}

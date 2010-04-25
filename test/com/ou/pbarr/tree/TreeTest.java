@@ -60,7 +60,7 @@ public class TreeTest
 	@Test
 	public void testDepthFirstStrategy()
 	{
-		DepthFirstStrategy dfs = new DepthFirstStrategy();
+		DepthFirstSearchStrategy dfs = new DepthFirstSearchStrategy();
 		
 		List<Tree<Integer>.Node> expected = new ArrayList<Tree<Integer>.Node>();
 		expected.add(tree.getRoot());

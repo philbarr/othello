@@ -6,7 +6,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-public class DepthFirstStrategyTest
+public class DepthFirstSearchStrategyTest
 {
 	private Tree<String> tree;
 	private Tree<String>.Node one, two, three, threeA, threeB, four;
@@ -41,7 +41,7 @@ public class DepthFirstStrategyTest
 	@Test
 	public void testBacktracksToFindFindUntestedChildren()
 	{
-		DepthFirstStrategy dfs = new DepthFirstStrategy();
+		DepthFirstSearchStrategy dfs = new DepthFirstSearchStrategy();
 		
 		List<Tree<String>.Node> expected = new ArrayList<Tree<String>.Node>();
 		expected.add(tree.getRoot());
@@ -51,5 +51,12 @@ public class DepthFirstStrategyTest
 		expected.add(threeB);
 		
 		assertEquals(expected, dfs.search(tree.getRoot(), threeB));
+	}
+	
+	@Test
+	public void testNodeDoesNotExist()
+	{
+		DepthFirstSearchStrategy dfs = new DepthFirstSearchStrategy();
+		assertEquals(new ArrayList<Tree<String>.Node>(), dfs.search(tree.getRoot(), tree.new Node("notInTree")));
 	}
 }

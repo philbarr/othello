@@ -6,7 +6,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-public class DepthFirstSearchStrategyTest
+public class BreadthFirstSearchStrategyTest
 {
 	private Tree<String> tree;
 	private Tree<String>.Node one, two, three, threeA, threeB, four;
@@ -39,9 +39,9 @@ public class DepthFirstSearchStrategyTest
 	}
 	
 	@Test
-	public void testBacktracksToFindFindUntestedChildren()
+	public void testChecksForGoalPerDepth()
 	{
-		DepthFirstSearchStrategyMock dfsMock = new DepthFirstSearchStrategyMock();
+		BreadthFirstSearchStrategyMock bfsMock = new BreadthFirstSearchStrategyMock();
 		
 		List<Tree<String>.Node> expected = new ArrayList<Tree<String>.Node>();
 		expected.add(tree.getRoot());
@@ -49,26 +49,42 @@ public class DepthFirstSearchStrategyTest
 		expected.add(two);
 		expected.add(three);
 		expected.add(threeA);
-		expected.add(four);
 		expected.add(threeB);
-		dfsMock.search(tree.getRoot(), threeB);
-		assertEquals(expected, dfsMock.verifyRecordedNodes());
+		expected.add(four);
+		bfsMock.search(tree.getRoot(), threeB);
+		assertEquals(expected, bfsMock.verifyRecordedNodes());
 	}
 	
 	@Test
 	public void testNodeDoesNotExist()
 	{
-		DepthFirstSearchStrategy dfs = new DepthFirstSearchStrategy();
-		assertEquals(new ArrayList<Tree<String>.Node>(), dfs.search(tree.getRoot(), tree.new Node("notInTree")));
+		BreadthFirstSearchStrategy bfs = new BreadthFirstSearchStrategy();
+		assertEquals(new ArrayList<Tree<String>.Node>(), bfs.search(tree.getRoot(), tree.new Node("notInTree")));
+	}
+	
+	@Test
+	public void testBreadthFirstStrategy()
+	{
+		BreadthFirstSearchStrategyMock bfsMock = new BreadthFirstSearchStrategyMock();
+		TreeMaker maker = new TreeMaker();
+		List<Tree<Integer>.Node> expected = new ArrayList<Tree<Integer>.Node>();
+		expected.add(maker.tree.getRoot());
+		expected.add(maker.n2);
+		expected.add(maker.n3);
+		expected.add(maker.n4);
+		expected.add(maker.n5);
+		expected.add(maker.n6);
+		expected.add(maker.n100);
+		bfsMock.search(maker.tree.getRoot(), maker.n100);
+		assertEquals(expected, bfsMock.verifyRecordedNodes());
 	}
 	
 	@Test
 	public void testFirstNodeIsGoal()
 	{
-		DepthFirstSearchStrategy bfs = new DepthFirstSearchStrategy();
+		BreadthFirstSearchStrategy bfs = new BreadthFirstSearchStrategy();
 		Tree<String> tree = new Tree<String>("goal");
-		List<Tree<String>.Node> expected = new ArrayList<Tree<String>.Node>();
-		expected.add(tree.getRoot());
-		assertEquals(expected, bfs.search(tree.getRoot(), tree.getRoot()));
+		
+		assertEquals(tree.getRoot(), bfs.search(tree.getRoot(), tree.getRoot()));
 	}
 }

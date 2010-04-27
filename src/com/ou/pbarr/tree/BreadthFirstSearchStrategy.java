@@ -1,38 +1,51 @@
 package com.ou.pbarr.tree;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
+import java.util.Queue;
+import com.ou.pbarr.tree.Tree.Node;
 
 public class BreadthFirstSearchStrategy implements SearchStrategy
 {
+	private Queue<Tree<?>.Node> agenda = new LinkedList<Tree<?>.Node>();
 
 	public List<Tree<?>.Node> search(Tree<?>.Node start, Tree<?>.Node goal)
 	{
-		List<Tree<?>.Node> agenda = new ArrayList<Tree<?>.Node>();
-		return agenda;
-//		agenda = find(start, goal);
-//		Collections.reverse(agenda);
-//		return agenda;
+		List<Tree<?>.Node> parents = new ArrayList<Tree<?>.Node>();
+		parents.add(start);
+		find(parents, goal);
+		return (LinkedList<Tree<?>.Node>) agenda;
 	}
 	
-	private Stack<Tree<?>.Node> find(Tree<?>.Node node, Tree<?>.Node goal)
+	Tree<?>.Node find(List<Tree<?>.Node> parents, Tree<?>.Node goal)
 	{
-		Stack<Tree<?>.Node> agenda = new Stack<Tree<?>.Node>();
-		agenda.push(node);
-		if (agenda.peek().equals(goal))
+		List<Tree<?>.Node> newParents = new ArrayList<Tree<?>.Node>();
+		
+		for (Tree<?>.Node parent : parents)
 		{
-			return agenda;
-		}
-		for (Tree<?>.Node child : agenda.peek().getChildren())
-		{
-			if (child.equals(goal))
+			for (Tree<?>.Node child : parent.getChildren())
 			{
-				agenda.push(child);
-				return agenda;
+				if (child.equals(goal))
+				{
+					agenda.offer(child);
+					return parent;
+				}
+				else
+				{
+					newParents.add(child);
+				}
 			}
 		}
+		
+		Tree<?>.Node found = find(newParents, goal);
+		
+		if ( found != null)
+		{
+			agenda.offer(found);
+			return found;
+		}
+		
 		return null;
 	}
 	

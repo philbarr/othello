@@ -51,8 +51,8 @@ public class BreadthFirstSearchStrategyTest
 		expected.add(threeA);
 		expected.add(threeB);
 		expected.add(four);
-		bfsMock.search(tree.getRoot(), threeB);
-		assertEquals(expected, bfsMock.verifyRecordedNodes());
+		bfsMock.search(tree.getRoot(), four);
+		bfsMock.verifyRecordedNodes();
 	}
 	
 	@Test
@@ -66,7 +66,12 @@ public class BreadthFirstSearchStrategyTest
 	public void testBreadthFirstStrategy()
 	{
 		BreadthFirstSearchStrategyMock bfsMock = new BreadthFirstSearchStrategyMock();
-		TreeMaker maker = new TreeMaker();
+		final TreeMaker maker = new TreeMaker();
+		bfsMock.expect(maker.tree.getRoot());
+		bfsMock.expect(new ArrayList<Tree<Integer>.Node>()
+				{{add (maker.n2);}});
+		bfsMock.expect(maker.n2);
+		
 		List<Tree<Integer>.Node> expected = new ArrayList<Tree<Integer>.Node>();
 		expected.add(maker.tree.getRoot());
 		expected.add(maker.n2);
@@ -76,7 +81,7 @@ public class BreadthFirstSearchStrategyTest
 		expected.add(maker.n6);
 		expected.add(maker.n100);
 		bfsMock.search(maker.tree.getRoot(), maker.n100);
-		assertEquals(expected, bfsMock.verifyRecordedNodes());
+		bfsMock.verifyRecordedNodes();
 	}
 	
 	@Test

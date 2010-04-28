@@ -1,20 +1,34 @@
 package com.ou.pbarr.tree;
 
+import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BreadthFirstSearchStrategyMock extends BreadthFirstSearchStrategy
 {
-	private List<Tree<?>.Node> recordedNodes = new ArrayList<Tree<?>.Node>();
+	private List<List<Tree<?>.Node>> expectedNodes = new ArrayList<List<Tree<?>.Node>>();
+	private List<List<Tree<?>.Node>> actualNodes = new ArrayList<List<Tree<?>.Node>>();
 	
 	protected Tree<?>.Node find(List<Tree<?>.Node> node, Tree<?>.Node goal) 
 	{
-		recordedNodes.add(node.get(0));
+		actualNodes.add(node);
 		return super.find(node, goal);
 	}
 
-	public List<Tree<?>.Node> verifyRecordedNodes()
+	public void verifyRecordedNodes()
 	{
-		return recordedNodes;
+		assertEquals(expectedNodes, actualNodes);
+	}
+	
+	public void expect(List<Tree<?>.Node> parents)
+	{
+		expectedNodes.add(parents);
+	}
+	
+	public void expect(Tree<?>.Node singleParent)
+	{
+		List<Tree<?>.Node> list = new ArrayList<Tree<?>.Node>();
+		list.add(singleParent);
+		expect(list);
 	}
 }

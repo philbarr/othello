@@ -1,7 +1,8 @@
 package com.ou.pbarr.tree;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Stack;
 
 /**
  * A depth first strategy for use with {@link Tree}. The strategy does not record
@@ -12,7 +13,7 @@ import java.util.Stack;
 public class DepthFirstSearchStrategy implements SearchStrategy
 {
 	// the agenda stores the current path being searched
-	private Stack<Tree<?>.Node> agenda = new Stack<Tree<?>.Node>();
+	private List<Tree<?>.Node> agenda = new ArrayList<Tree<?>.Node>();
 	
 	/**
 	 * Searches the tree from start to goal using the depth first technique.
@@ -24,6 +25,7 @@ public class DepthFirstSearchStrategy implements SearchStrategy
 	public List<Tree<?>.Node> search(Tree<?>.Node start, Tree<?>.Node goal)
 	{
 		find(start, goal);
+		Collections.reverse(agenda);
 		return agenda;
 	}
 	

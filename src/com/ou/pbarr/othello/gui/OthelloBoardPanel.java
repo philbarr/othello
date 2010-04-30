@@ -82,10 +82,11 @@ public class OthelloBoardPanel extends JPanel{
     // simple test main.
     public static void main(String[] args) {
         List<GameToken> tokens = new ArrayList<GameToken>();
+        tokens.add(new GameToken(GameToken.Colour.LIGHT, 3,3));
+        tokens.add(new GameToken(GameToken.Colour.DARK, 3,4));
+        tokens.add(new GameToken(GameToken.Colour.DARK, 4,3));
         tokens.add(new GameToken(GameToken.Colour.LIGHT, 4,4));
-        tokens.add(new GameToken(GameToken.Colour.DARK, 4,5));
-        tokens.add(new GameToken(GameToken.Colour.DARK, 5,4));
-        tokens.add(new GameToken(GameToken.Colour.LIGHT, 5,5));
+        tokens.add(new GameToken(GameToken.Colour.LIGHT, 4,5));
         OthelloBoardPanel othelloBoardPanel = new OthelloBoardPanel();
         othelloBoardPanel.setTokens(tokens);
         

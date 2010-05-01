@@ -25,7 +25,7 @@ public class OthelloBoardPanel extends JPanel{
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        int boardSize = this.getWidth();
+        int boardSize = this.getWidth() > this.getHeight() ? this.getHeight() : this.getWidth();
         int squareSize = boardSize/8;
         drawBoard(g, boardSize, squareSize);
         drawTokens(g, squareSize);
@@ -77,24 +77,6 @@ public class OthelloBoardPanel extends JPanel{
                 g.fillRect(xPos, yPos, squareSize, squareSize);
             }
         }
-    }
-    
-    // simple test main.
-    public static void main(String[] args) {
-        List<GameToken> tokens = new ArrayList<GameToken>();
-        tokens.add(new GameToken(GameToken.Colour.LIGHT, 3,3));
-        tokens.add(new GameToken(GameToken.Colour.DARK, 3,4));
-        tokens.add(new GameToken(GameToken.Colour.DARK, 4,3));
-        tokens.add(new GameToken(GameToken.Colour.LIGHT, 4,4));
-        tokens.add(new GameToken(GameToken.Colour.LIGHT, 4,5));
-        OthelloBoardPanel othelloBoardPanel = new OthelloBoardPanel();
-        othelloBoardPanel.setTokens(tokens);
-        
-        JFrame frame = new JFrame("Othello");
-        frame.add(othelloBoardPanel);
-        frame.setSize(new Dimension(450,480));
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
     }
 
     public void setTokens(List<GameToken> tokens) {
@@ -159,5 +141,23 @@ public class OthelloBoardPanel extends JPanel{
 
     public int getTokenMargin() {
         return tokenMargin;
+    }
+    
+    // simple test main.
+    public static void main(String[] args) {
+    	List<GameToken> tokens = new ArrayList<GameToken>();
+    	tokens.add(new GameToken(GameToken.Colour.LIGHT, 3,3));
+    	tokens.add(new GameToken(GameToken.Colour.DARK, 3,4));
+    	tokens.add(new GameToken(GameToken.Colour.DARK, 4,3));
+    	tokens.add(new GameToken(GameToken.Colour.LIGHT, 4,4));
+    	tokens.add(new GameToken(GameToken.Colour.LIGHT, 4,5));
+    	OthelloBoardPanel othelloBoardPanel = new OthelloBoardPanel();
+    	othelloBoardPanel.setTokens(tokens);
+    	
+    	JFrame frame = new JFrame("Othello");
+    	frame.add(othelloBoardPanel);
+    	frame.setSize(new Dimension(450,480));
+    	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	frame.setVisible(true);
     }
 }

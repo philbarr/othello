@@ -52,4 +52,10 @@ public class DepthFirstSearchStrategy implements SearchStrategy
 		
 		return null;
 	}
+
+	@Override
+	public String getName()
+	{
+		return "Depth First Strategy";
+	}
 }

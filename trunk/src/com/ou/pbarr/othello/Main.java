@@ -14,6 +14,7 @@ public class Main
 		controller.setView(othelloFrame);
 		controller.setModel(new OthelloModel());
 		othelloFrame.setSize(400,400);
+		othelloFrame.setTitle("Othello");
 		othelloFrame.setVisible(true);
 	}
 }

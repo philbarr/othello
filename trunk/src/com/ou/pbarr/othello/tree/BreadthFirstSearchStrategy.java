@@ -47,6 +47,12 @@ public class BreadthFirstSearchStrategy implements SearchStrategy
 	
 		return null;
 	}
+
+	@Override
+	public String getName()
+	{
+		return "Breadth First Strategy";
+	}
 	
 	
 }

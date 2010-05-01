@@ -6,10 +6,14 @@ import com.ou.pbarr.othello.model.Model;
 public interface Controller
 {
 
-	void applicationClosing();
+	void quit();
 
 	void setView(View view);
 
 	void setModel(Model model);
+
+	void callActionByName(String text);
+
+	String[] getStrategies();
 
 }

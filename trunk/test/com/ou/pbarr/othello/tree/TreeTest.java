@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.ou.pbarr.othello.tree.BreadthFirstSearchStrategy;
@@ -33,7 +34,7 @@ public class TreeTest
 		
 		assertEquals(expected, dfs.search(maker.tree.getRoot(), maker.n100));
 	}
-	@Test
+	@Test @Ignore
 	public void testBreadthFirstStrategy()
 	{
 		BreadthFirstSearchStrategy bfs = new BreadthFirstSearchStrategy();

@@ -1,11 +1,7 @@
 package com.ou.pbarr.othello.tree;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
-
-import com.ou.pbarr.othello.tree.Tree.Node;
 
 public class BreadthFirstSearchStrategy implements SearchStrategy
 {

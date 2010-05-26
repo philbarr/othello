@@ -14,7 +14,11 @@ public class OthelloState
 
 	public List<Token> getPossibleNextPositions()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		List<Token> nextPositions = new ArrayList<Token>();
+		for (Token token : tokens)
+		{
+			
+		}
+		return nextPositions;
 	}
 }

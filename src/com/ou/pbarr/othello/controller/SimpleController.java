@@ -13,7 +13,6 @@ public class SimpleController implements Controller
 	private static final String ACTION_EXIT = "Exit";
 	private static final String RADIO_BUTTON_PREFIX = "rdo";
 	
-	
 	private View view;
 	private Model model;
 	
@@ -56,7 +55,7 @@ public class SimpleController implements Controller
 		else if (text != null && text.startsWith(RADIO_BUTTON_PREFIX))
 		{
 			LOG.info("setting strategy on model:" + text.substring(3));
-			model.setStrategy(text.substring(3));
+			model.setStrategyByName(text.substring(3));
 		}
 	}
 

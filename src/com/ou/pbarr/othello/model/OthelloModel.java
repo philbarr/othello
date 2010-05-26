@@ -1,35 +1,50 @@
 package com.ou.pbarr.othello.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import com.ou.pbarr.othello.tree.SearchStrategy;
 
 public class OthelloModel implements Model
 {
 	private SearchStrategy currentStrategy;
-	private SearchStrategy[] strategies;
+	private List<SearchStrategy> strategies = new ArrayList<SearchStrategy>();
 
 	@Override
-	public void setStrategy(String strategy)
+	public void setStrategyByName(String strategyName)
 	{
-		for (int i = 0; i < strategies.length; i++)
+		for (SearchStrategy strategy : strategies)
 		{
-			if (strategy.equals(strategies[i].getName()))
+			if (strategyName.equals(strategy.getName()))
 			{
-				currentStrategy = strategies[i];
+				currentStrategy = strategy;
 			}
 		}
+	}
+
+	public SearchStrategy getCurrentStrategy()
+	{
+		return currentStrategy;
+	}
+
+	public void setCurrentStrategy(SearchStrategy currentStrategy)
+	{
+		this.currentStrategy = currentStrategy;
 	}
 
 	@Override
 	public String[] getStrategyNames()
 	{
-		String[] strategyNames = new String[strategies.length];
-
-		for (int i = 0; i < strategies.length; i++)
+		String[] strategyNames = new String[strategies.size()];
+		for (int i = 0; i < strategyNames.length; i++)
 		{
-			strategyNames[i] = strategies[i].getName();
+			strategyNames[i] = strategies.get(i).getName();
 		}
-
 		return strategyNames;
 	}
-
+	
+	@Override
+	public void addStrategy(SearchStrategy strategy)
+	{
+		strategies.add(strategy);
+	}
 }

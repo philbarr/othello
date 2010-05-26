@@ -1,10 +1,14 @@
 package com.ou.pbarr.othello.model;
 
+import com.ou.pbarr.othello.tree.SearchStrategy;
+
 public interface Model
 {
 
-	void setStrategy(String substring);
+	void setStrategyByName(String substring);
 
 	String[] getStrategyNames();
+	
+	void addStrategy(SearchStrategy strategy);
 
 }

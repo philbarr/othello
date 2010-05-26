@@ -1,19 +1,20 @@
 package com.ou.pbarr.othello.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OthelloState
 {
-	public enum TokenTypes
+	private List<Token> tokens = new ArrayList<Token>();
+
+	public void addToken(Token token) throws OutOfOthelloBoardBoundsException
 	{
-		BLACK,
-		WHITE
+		tokens.add(token);
 	}
 
-	public void addToken(TokenTypes tokenType, int x, int y) throws OutOfOthelloBoardBoundsException
+	public List<Token> getPossibleNextPositions()
 	{
-		if ((x < 1 || x > 8) ||
-				(y < 1 || y > 8))
-		{
-			throw new OutOfOthelloBoardBoundsException("Cannot assign a board token to x: " + "y: " + y);
-		}
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -14,7 +14,7 @@ public class Main
 		model.addStrategy(new DepthFirstSearchStrategy());
 		Controller controller = new SimpleController();
 		controller.setModel(model);
-		OthelloMainFrame othelloFrame = new OthelloMainFrame(controller);
+		OthelloMainFrame othelloFrame = new OthelloMainFrame(controller, model);
 		controller.setView(othelloFrame);
 		othelloFrame.setSize(400,400);
 		othelloFrame.setTitle("Othello");

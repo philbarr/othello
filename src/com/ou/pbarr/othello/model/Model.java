@@ -11,4 +11,10 @@ public interface Model
 	
 	void addStrategy(SearchStrategy strategy);
 
+	Token[] getTokens();
+
+	Token[] getPossibleNextMoves();
+
+	void newGame();
+
 }

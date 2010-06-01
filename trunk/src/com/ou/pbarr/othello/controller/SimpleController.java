@@ -25,6 +25,7 @@ public class SimpleController implements Controller
 	public void setView(View view)
 	{
 		this.view = view;
+		view.updateBoard();
 	}
 
 	public void setModel(Model model)
@@ -73,8 +74,8 @@ public class SimpleController implements Controller
 
 	private void newGame()
 	{
-		// TODO Auto-generated method stub
-		
+		model.newGame();
+		view.updateBoard();
 	}
 
 	@Override

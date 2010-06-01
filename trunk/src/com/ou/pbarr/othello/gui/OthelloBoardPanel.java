@@ -9,6 +9,8 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.ou.pbarr.othello.model.OthelloState;
+
 @SuppressWarnings("serial")
 public class OthelloBoardPanel extends JPanel{
     
@@ -21,13 +23,14 @@ public class OthelloBoardPanel extends JPanel{
     private int tokenMargin = 20; // percentage of overall square size as a margin.
     
     private List<GameToken> tokens = null;
+		private boolean drawGhostTokens = false;
 
     @Override
     public void paint(Graphics g) {
         super.paint(g);
         int boardSize = this.getWidth() > this.getHeight() ? this.getHeight() : this.getWidth();
-        int squareSize = boardSize/8;
-        drawBoard(g, boardSize, squareSize);
+        int squareSize = boardSize/OthelloState.OTHELLO_BOARD_SIZE;
+        drawBoard(g, squareSize);
         drawTokens(g, squareSize);
     }
     
@@ -38,8 +41,8 @@ public class OthelloBoardPanel extends JPanel{
             
             for (GameToken token : tokens) {
                 
-                int xToken = token.getXPosition() * squareSize;
-                int yToken = token.getYPosition() * squareSize;
+                int xToken = (token.getXPosition() * squareSize) - squareSize;
+                int yToken = (token.getYPosition() * squareSize) - squareSize;
                 
                 Color fillColour = null;
                 Color borderColour = null;
@@ -54,6 +57,11 @@ public class OthelloBoardPanel extends JPanel{
                     fillColour = this.getDarkTokenColour();
                     borderColour = this.getDarkTokenBorderColour();
                 }
+                else if (token.getGameColour() == GameToken.Colour.GHOST &&
+                		drawGhostTokens == false)
+                {
+                	continue;
+                }
                 g.setColor(fillColour);
                 g.fillOval(xToken + margin, yToken + margin, squareSize - (margin * 2), squareSize - (margin * 2));
                 g.setColor(borderColour);
@@ -62,16 +70,18 @@ public class OthelloBoardPanel extends JPanel{
         }
     }
 
-    private void drawBoard(Graphics g, int boardSize, int squareSize) {
+    private void drawBoard(Graphics g, int squareSize) {
         
         g.setColor(this.getLightSquareColour());
+        // by multiplying up, we avoid rounding issues we introduced by dividing the board up into squares
+        int boardSize = squareSize * OthelloState.OTHELLO_BOARD_SIZE;
         g.fillRect(0, 0, boardSize, boardSize);
         
         // fill in the squares, each odd row gets moved along by a squareSize
         // to create a chequered board pattern.
         g.setColor(this.getDarkSquareColour());
-        for (int colSquares = 0; colSquares < 8; colSquares+=2) {
-            for (int rowSquares = 0; rowSquares < 8; rowSquares++) {
+        for (int colSquares = 0; colSquares < OthelloState.OTHELLO_BOARD_SIZE; colSquares+=2) {
+            for (int rowSquares = 0; rowSquares < OthelloState.OTHELLO_BOARD_SIZE; rowSquares++) {
                 int xPos = rowSquares % 2 == 0 ?  colSquares * squareSize : (colSquares * squareSize) + squareSize;
                 int yPos = rowSquares * squareSize;
                 g.fillRect(xPos, yPos, squareSize, squareSize);
@@ -81,10 +91,6 @@ public class OthelloBoardPanel extends JPanel{
 
     public void setTokens(List<GameToken> tokens) {
         this.tokens = tokens;
-    }
-
-    public List<GameToken> getTokens() {
-        return tokens;
     }
 
     public void setDarkTokenColour(Color darkTokenColour) {
@@ -160,4 +166,9 @@ public class OthelloBoardPanel extends JPanel{
     	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	frame.setVisible(true);
     }
+
+		public void setDrawGhostTokens(boolean drawTokens)
+		{
+			this.drawGhostTokens  = drawTokens;
+		}
 }

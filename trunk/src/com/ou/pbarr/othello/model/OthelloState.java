@@ -117,4 +117,31 @@ public class OthelloState
 		}
 		return null;
 	}
+
+	public Token[] getTokens()
+	{
+		List<Token> allTokens = new ArrayList<Token>();
+		for (Token[] horizontalTokens : board) 
+		{
+			for (Token token : horizontalTokens)
+			{
+				if (token != null)
+				{
+					allTokens.add(token);
+				}
+			}
+		}
+		return allTokens.toArray(new Token[allTokens.size()]);
+	}
+
+	public void clearAllTokens()
+	{
+		for (int i = 0 ; i < OTHELLO_BOARD_SIZE ; i++)
+		{
+			for (int j = 0 ; j < OTHELLO_BOARD_SIZE ; j++)
+			{
+				board[i][j] = null;
+			}
+		}
+	}
 }

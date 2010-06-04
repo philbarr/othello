@@ -3,22 +3,18 @@ package com.ou.pbarr.othello.controller;
 import java.util.logging.Logger;
 import com.ou.pbarr.othello.gui.View;
 import com.ou.pbarr.othello.model.Model;
+import com.ou.pbarr.othello.model.SearchStrategyDoesNotExistException;
+import com.ou.pbarr.othello.model.Token.Type;
 
 public class SimpleController implements Controller
 {
 	private static final Logger LOG = Logger.getLogger(SimpleController.class.getName());
-	private static final String ACTION_NEW = "New";
-	private static final String ACTION_LOAD = "Load";
-	private static final String ACTION_SAVE = "Save";
-	private static final String ACTION_EXIT = "Exit";
-	private static final String RADIO_BUTTON_PREFIX = "rdo";
-	
 	private View view;
 	private Model model;
 	
 	public void quit()
 	{
-		System.out.println("closing");
+		LOG.info("closing");
 		System.exit(0);
 	}
 
@@ -53,11 +49,6 @@ public class SimpleController implements Controller
 		{
 			quit();
 		}
-		else if (text != null && text.startsWith(RADIO_BUTTON_PREFIX))
-		{
-			LOG.info("setting strategy on model:" + text.substring(3));
-			model.setStrategyByName(text.substring(3));
-		}
 	}
 
 	private void save()
@@ -75,12 +66,44 @@ public class SimpleController implements Controller
 	private void newGame()
 	{
 		model.newGame();
+		chooseHumanPlayerColour();
 		view.updateBoard();
 	}
 
 	@Override
 	public String[] getStrategies()
 	{
+		LOG.info("SimpleController.getStrategies()");
 		return model.getStrategyNames();
+	}
+
+	@Override
+	public void chooseHumanPlayerColour()
+	{
+		String colourChoice = view.askForHumanPlayerColour();
+		LOG.info("chose human player colour: " + colourChoice);
+		
+		if (View.PLAYER_COLOUR_BLACK.equals(colourChoice))
+		{
+			model.setPlayerColour(Type.BLACK);
+		}
+		else
+		{
+			model.setPlayerColour(Type.WHITE);
+		}
+	}
+
+	@Override
+	public void changeStrategyByName(String text)
+	{
+		try
+		{
+			model.setStrategyByName(text);
+			LOG.info("set strategy on model:" + text);
+		}
+		catch (SearchStrategyDoesNotExistException e)
+		{
+			LOG.severe("SearchStrategyDoesNotExistException: " + e.getMessage());
+		}
 	}
 }

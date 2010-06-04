@@ -3,6 +3,7 @@ package com.ou.pbarr.othello.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ou.pbarr.othello.model.Token.Type;
 import com.ou.pbarr.othello.tree.SearchStrategy;
 
 /**
@@ -22,15 +23,26 @@ public class OthelloModel implements Model
 		newGame();
 	}
 	
+	/**
+	 * Sets the strategy by name. If the name does not exist in the
+	 * current list of strategies, a StrategyDoesNotExistException is thrown.
+	 * @throws SearchStrategyDoesNotExistException 
+	 */
 	@Override
-	public void setStrategyByName(String strategyName)
+	public void setStrategyByName(String strategyName) throws SearchStrategyDoesNotExistException
 	{
+		boolean found = false;
 		for (SearchStrategy strategy : strategies)
 		{
 			if (strategyName.equals(strategy.getName()))
 			{
 				currentStrategy = strategy;
+				found = true;
 			}
+		}
+		if (!found)
+		{
+			throw new SearchStrategyDoesNotExistException(strategyName + "is not a known strategy");
 		}
 	}
 
@@ -89,5 +101,11 @@ public class OthelloModel implements Model
 		{
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void setPlayerColour(Type colour)
+	{
+		this.playerColour = colour;
 	}
 }

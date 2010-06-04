@@ -4,28 +4,27 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-
 import com.ou.pbarr.othello.controller.Controller;
 import com.ou.pbarr.othello.gui.GameToken.Colour;
 import com.ou.pbarr.othello.model.Model;
 import com.ou.pbarr.othello.model.Token;
 
-public class OthelloMainFrame extends JFrame implements View, ActionListener, MouseMotionListener
+public class OthelloMainFrame extends JFrame implements View, ActionListener, OthelloBoardPanelListener
 {
+	private final static Logger LOG = Logger.getLogger(OthelloMainFrame.class.getName());
 	private Model model;
 	private Controller controller;
 	private OthelloBoardPanel board;
@@ -47,7 +46,10 @@ public class OthelloMainFrame extends JFrame implements View, ActionListener, Mo
 		
 		this.setJMenuBar(getFileMenu());	
 		this.setContentPane(getMainPanel());
-		this.addMouseMotionListener(this);
+		this.setSize(400,400);
+		this.setTitle("Othello");
+		this.setVisible(true);
+		LOG.info("OthelloMainFrame constructed");
 	}
 
 	private JPanel getMainPanel()
@@ -56,7 +58,6 @@ public class OthelloMainFrame extends JFrame implements View, ActionListener, Mo
 		mainPane.setLayout(new BorderLayout());
 		mainPane.add(getBoard(), BorderLayout.CENTER);
 		mainPane.add(getStrategyOptions(), BorderLayout.EAST);
-		mainPane.addMouseMotionListener(this);
 		return mainPane;
 	}
 
@@ -82,7 +83,7 @@ public class OthelloMainFrame extends JFrame implements View, ActionListener, Mo
 	private JPanel getBoard()
 	{
 		board = new OthelloBoardPanel();
-		board.addMouseMotionListener(this);
+		board.addOthelloBoardPanelListener(this);
 		return board;
 	}
 
@@ -120,7 +121,7 @@ public class OthelloMainFrame extends JFrame implements View, ActionListener, Mo
 		else if (e.getSource() instanceof JRadioButton)
 		{
 			String text = ((JRadioButton)e.getSource()).getText();
-			controller.callActionByName("rdo" + text);
+			controller.changeStrategyByName(text);
 		}
 	}
 
@@ -155,17 +156,22 @@ public class OthelloMainFrame extends JFrame implements View, ActionListener, Mo
 	}
 
 	@Override
-	public void mouseDragged(MouseEvent event)
+	public String askForHumanPlayerColour()
 	{
-		board.setDrawGhostTokens(event.getSource().equals(board));
-		repaint();
+		Object selectedValue = JOptionPane.showInputDialog(this,
+				"Which colour would you like to play as?", 
+				"Select Colour",
+				JOptionPane.INFORMATION_MESSAGE, 
+				null,
+				new String[]{PLAYER_COLOUR_BLACK, PLAYER_COLOUR_WHITE}, null);
+		return (String) selectedValue;
 	}
 
 	@Override
-	public void mouseMoved(MouseEvent event)
+	public void squareClicked(int xSquare, int ySquare)
 	{
-		board.setDrawGhostTokens(event.getSource().equals(board));
-		repaint();
+		LOG.info("OthelloBoardPanel clicked square: x: " + xSquare + ", y: " + ySquare);
+		JOptionPane.showMessageDialog(this, "x: " + xSquare + ", y: " + ySquare);
 	}
 	
 	

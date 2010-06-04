@@ -1,11 +1,12 @@
 package com.ou.pbarr.othello.model;
 
+import com.ou.pbarr.othello.model.Token.Type;
 import com.ou.pbarr.othello.tree.SearchStrategy;
 
 public interface Model
 {
 
-	void setStrategyByName(String substring);
+	void setStrategyByName(String substring) throws SearchStrategyDoesNotExistException;
 
 	String[] getStrategyNames();
 	
@@ -16,5 +17,7 @@ public interface Model
 	Token[] getPossibleNextMoves();
 
 	void newGame();
+
+	void setPlayerColour(Type black);
 
 }

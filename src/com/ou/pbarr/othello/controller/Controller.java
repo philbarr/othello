@@ -5,6 +5,10 @@ import com.ou.pbarr.othello.model.Model;
 
 public interface Controller
 {
+	public static final String ACTION_NEW = "New";
+	public static final String ACTION_LOAD = "Load";
+	public static final String ACTION_SAVE = "Save";
+	public static final String ACTION_EXIT = "Exit";
 
 	void quit();
 
@@ -15,5 +19,9 @@ public interface Controller
 	void callActionByName(String text);
 
 	String[] getStrategies();
+
+	void chooseHumanPlayerColour();
+
+	void changeStrategyByName(String text);
 
 }

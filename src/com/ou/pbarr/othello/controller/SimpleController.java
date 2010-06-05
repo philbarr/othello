@@ -106,4 +106,10 @@ public class SimpleController implements Controller
 			LOG.severe("SearchStrategyDoesNotExistException: " + e.getMessage());
 		}
 	}
+
+	@Override
+	public void selectSquare(int xSquare, int ySquare)
+	{
+		model.move(xSquare, ySquare);
+	}
 }

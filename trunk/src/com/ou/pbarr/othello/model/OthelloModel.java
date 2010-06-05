@@ -108,4 +108,10 @@ public class OthelloModel implements Model
 	{
 		this.playerColour = colour;
 	}
+
+	@Override
+	public void move(int xSquare, int ySquare)
+	{
+		state.playToken(playerColour);
+	}
 }

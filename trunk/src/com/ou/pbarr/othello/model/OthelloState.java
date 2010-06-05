@@ -2,6 +2,7 @@ package com.ou.pbarr.othello.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.ou.pbarr.othello.model.Token.Type;
 
 /**
  * Represents a game of Othello, with operations to add tokens, play tokens, and find next possible positions.
@@ -143,5 +144,11 @@ public class OthelloState
 				board[i][j] = null;
 			}
 		}
+	}
+
+	public void playToken(Type token)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }

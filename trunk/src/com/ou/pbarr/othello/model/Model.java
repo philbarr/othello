@@ -20,4 +20,6 @@ public interface Model
 
 	void setPlayerColour(Type black);
 
+	void move(int xSquare, int ySquare);
+
 }

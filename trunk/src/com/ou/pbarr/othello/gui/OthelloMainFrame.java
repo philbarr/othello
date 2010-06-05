@@ -171,7 +171,7 @@ public class OthelloMainFrame extends JFrame implements View, ActionListener, Ot
 	public void squareClicked(int xSquare, int ySquare)
 	{
 		LOG.info("OthelloBoardPanel clicked square: x: " + xSquare + ", y: " + ySquare);
-		JOptionPane.showMessageDialog(this, "x: " + xSquare + ", y: " + ySquare);
+		controller.selectSquare(xSquare, ySquare);
 	}
 	
 	

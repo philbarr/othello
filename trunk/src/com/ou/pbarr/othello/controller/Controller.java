@@ -24,4 +24,6 @@ public interface Controller
 
 	void changeStrategyByName(String text);
 
+	void selectSquare(int xSquare, int ySquare);
+
 }

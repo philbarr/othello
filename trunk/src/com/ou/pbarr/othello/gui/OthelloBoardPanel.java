@@ -19,8 +19,11 @@ public class OthelloBoardPanel extends JPanel
 	private Color lightSquareColour = Color.WHITE;
 	private Color darkTokenColour = Color.BLACK;
 	private Color lightTokenColour = Color.WHITE;
+	private Color ghostTokenColour = Color.GRAY.brighter();
 	private Color darkTokenBorderColour = Color.DARK_GRAY;
 	private Color lightTokenBorderColour = Color.DARK_GRAY;
+	private Color ghostTokenBorderColour = Color.DARK_GRAY.brighter();
+
 	private int tokenMargin = 20; // percentage of overall square size as a margin.
 
 	private List<GameToken> tokens = null;
@@ -79,7 +82,15 @@ public class OthelloBoardPanel extends JPanel
 				else if (token.getGameColour() == GameToken.Colour.GHOST
 						&& drawGhostTokens == false)
 				{
-					continue;
+					if (drawGhostTokens)
+					{
+						fillColour = this.getGhostTokenColour();
+						borderColour = this.getGhostTokenBorderColour();
+					}
+					else
+					{
+						continue;
+					}
 				}
 				g.setColor(fillColour);
 				g.fillOval(xToken + margin, yToken + margin, squareSize - (margin * 2),
@@ -186,6 +197,26 @@ public class OthelloBoardPanel extends JPanel
 		return tokenMargin;
 	}
 
+	public Color getGhostTokenColour()
+	{
+		return ghostTokenColour;
+	}
+	
+	public void setGhostTokenColour(Color ghostTokenColour)
+	{
+		this.ghostTokenColour = ghostTokenColour;
+	}
+	
+	public Color getGhostTokenBorderColour()
+	{
+		return ghostTokenBorderColour;
+	}
+	
+	public void setGhostTokenBorderColour(Color ghostTokenBorderColour)
+	{
+		this.ghostTokenBorderColour = ghostTokenBorderColour;
+	}
+
 	// simple test main.
 	public static void main(String[] args)
 	{
@@ -223,31 +254,27 @@ public class OthelloBoardPanel extends JPanel
 	 */
 	private class OthelloBoardPanelMouseAdapter extends MouseAdapter
 	{
-		private OthelloBoardPanel obp = OthelloBoardPanel.this;
-		
 		@Override
 		public void mouseClicked(MouseEvent e)
 		{
-			
-			
-			for (OthelloBoardPanelListener listener : obp.listeners)
+			for (OthelloBoardPanelListener listener : listeners)
 			{
-				listener.squareClicked(e.getX(), e.getY());
+				listener.squareClicked((e.getX() / squareSize) + 1, (e.getY()/squareSize) + 1);
 			}
 		}
 		
 		@Override
 		public void mouseEntered(MouseEvent e)
 		{
-			obp.drawGhostTokens = true;
-			obp.repaint();
+			drawGhostTokens = true;
+			repaint();
 		}
 		
 		@Override
 		public void mouseExited(MouseEvent e)
 		{
-			obp.drawGhostTokens = false;
-			obp.repaint();
+			drawGhostTokens = false;
+			repaint();
 		}
 	}
 }

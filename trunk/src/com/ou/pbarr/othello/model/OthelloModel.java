@@ -2,7 +2,6 @@ package com.ou.pbarr.othello.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.ou.pbarr.othello.model.Token.Type;
 import com.ou.pbarr.othello.tree.SearchStrategy;
 
@@ -88,16 +87,17 @@ public class OthelloModel implements Model
 	@Override
 	public void newGame()
 	{
+		//TODO throw proper exceptions if new game fails, at least log properly
 		// set up default board position
   	try
 		{
   		state.clearAllTokens();
-			state.addToken(new Token(Token.Type.BLACK, 4,4));
-			state.addToken(new Token(Token.Type.WHITE, 4,5));
-			state.addToken(new Token(Token.Type.WHITE, 5,4));
-			state.addToken(new Token(Token.Type.BLACK, 5,5));
+			state.addToken(new Token(Token.Type.WHITE, 4,4));
+			state.addToken(new Token(Token.Type.BLACK, 4,5));
+			state.addToken(new Token(Token.Type.BLACK, 5,4));
+			state.addToken(new Token(Token.Type.WHITE, 5,5));
 		} 
-  	catch (OutOfOthelloBoardBoundsException e)
+  	catch (Exception e)
 		{
 			e.printStackTrace();
 		}
@@ -110,8 +110,8 @@ public class OthelloModel implements Model
 	}
 
 	@Override
-	public void move(int xSquare, int ySquare)
+	public void makeMove(int xSquare, int ySquare) throws OutOfOthelloBoardBoundsException, TokenAlreadyExistsInSquareException
 	{
-		state.playToken(playerColour);
+		state.playToken(new Token(playerColour, xSquare, ySquare));
 	}
 }

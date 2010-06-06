@@ -20,6 +20,6 @@ public interface Model
 
 	void setPlayerColour(Type black);
 
-	void move(int xSquare, int ySquare);
+	void makeMove(int xSquare, int ySquare) throws OutOfOthelloBoardBoundsException, TokenAlreadyExistsInSquareException;
 
 }

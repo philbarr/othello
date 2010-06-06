@@ -2,7 +2,6 @@ package com.ou.pbarr.othello.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.ou.pbarr.othello.model.Token.Type;
 
 /**
  * Represents a game of Othello, with operations to add tokens, play tokens, and find next possible positions.
@@ -15,12 +14,14 @@ public class OthelloState
 	private Token[][] board = new Token[OTHELLO_BOARD_SIZE][OTHELLO_BOARD_SIZE];
 
 	/**
-	 * Adds a new token to the board. If a token already exists at this location, that token
-	 * is overwritten with this new token.
+	 * Adds a new token to the board. If a token already exists at this location, 
+	 * a TokenAlreadyExistsInSquareException is thrown
 	 * @param token the Token to add
+	 * @throws TokenAlreadyExistsInSquareException if a token already exists on the board at the square the token is referring to
 	 */
-	public void addToken(Token token)
+	public void addToken(Token token) throws TokenAlreadyExistsInSquareException
 	{
+		checkTokenIsLegal(token);
 		board[token.getX() - 1][token.getY() - 1] = token;
 	}
 
@@ -52,7 +53,7 @@ public class OthelloState
 		{
 			for (int y = -1; y <= 1; y++)
 			{
-				// the loop gives us all vectors in all directions but we don't want (0, 0)
+				// this loop gives us all vectors in all directions but we don't want (0, 0)
 				if (x != 0 || y != 0)
 				{
     				Token position = findPossiblePositionOnVector(token, x, y);
@@ -82,7 +83,7 @@ public class OthelloState
 			currentY += yVector;
 			
 			// check if the board has a token at this board position
-			Token tokenToCheck = board[currentX-1][currentY-1];
+			Token tokenToCheck = getSquare(currentX, currentY);
 			if (tokenToCheck != null)
 			{
 				if (tokenToCheck.getType() == opponentColour)
@@ -146,9 +147,26 @@ public class OthelloState
 		}
 	}
 
-	public void playToken(Type token)
+	public void playToken(Token token) throws TokenAlreadyExistsInSquareException
 	{
-		// TODO Auto-generated method stub
+		checkTokenIsLegal(token);
 		
+	}
+
+	private void checkTokenIsLegal(Token token) throws TokenAlreadyExistsInSquareException
+	{
+		if (getSquare(token.getX(), token.getY()) != null)
+		{
+			throw new TokenAlreadyExistsInSquareException("At square: " + token.getX() + ", y: " + token.getY());
+		}
+	}
+	
+	/*
+	 * Turns board references (1 -8) into array references (0-7) to index into the array
+	 * so that we don't have to -1 when indexing into the array elsewhere
+	 */
+	private Token getSquare(int x, int y)
+	{
+		return board[x-1][y-1];
 	}
 }

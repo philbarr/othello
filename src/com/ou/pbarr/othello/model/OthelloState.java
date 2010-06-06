@@ -2,6 +2,7 @@ package com.ou.pbarr.othello.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.ou.pbarr.othello.model.Token.Type;
 
 /**
  * Represents a game of Othello, with operations to add tokens, play tokens, and find next possible positions.
@@ -9,7 +10,7 @@ import java.util.List;
  */
 public class OthelloState
 {
-	public static int OTHELLO_BOARD_SIZE = 8;
+	public final static int OTHELLO_BOARD_SIZE = 8;
 	
 	private Token[][] board = new Token[OTHELLO_BOARD_SIZE][OTHELLO_BOARD_SIZE];
 
@@ -39,14 +40,14 @@ public class OthelloState
 			{
 				if (token != null && token.getType() == colour)
 				{
-					nextPositions.addAll(getNextPossiblePositionsFor(token));
+					nextPositions.addAll(findTokensOfTypeFrom(token, null));
 				}
 			}
 		}
 		return nextPositions;
 	}
 
-	private List<Token> getNextPossiblePositionsFor(Token token)
+	private List<Token> findTokensOfTypeFrom(Token startToken, Type endTokenType)
 	{
 		List<Token> nextPositions = new ArrayList<Token>();
 		for(int x = -1; x <= 1; x++)
@@ -54,9 +55,9 @@ public class OthelloState
 			for (int y = -1; y <= 1; y++)
 			{
 				// this loop gives us all vectors in all directions but we don't want (0, 0)
-				if (x != 0 || y != 0)
+				if (!(x == 0 && y == 0))
 				{
-    				Token position = findPossiblePositionOnVector(token, x, y);
+    				Token position = findTokensOfTypeOnVector(startToken, endTokenType, x, y);
     				if (position != null)
     				{
     					nextPositions.add(position);
@@ -67,12 +68,12 @@ public class OthelloState
 		return nextPositions;
 	}
 
-	private Token findPossiblePositionOnVector(Token token, int xVector, int yVector)
+	private Token findTokensOfTypeOnVector(Token startToken, Type endTokenType, int xVector, int yVector)
 	{
 		boolean opponentColourFound = false;
-		int currentX = token.getX();
-		int currentY = token.getY();
-		Token.Type playerColour = token.getType();
+		int currentX = startToken.getX();
+		int currentY = startToken.getY();
+		Token.Type playerColour = startToken.getType();
 		Token.Type opponentColour = playerColour == Token.Type.BLACK ? Token.Type.WHITE : Token.Type.BLACK;
 		
 		while (currentX > 1 && currentX < OTHELLO_BOARD_SIZE &&

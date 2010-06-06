@@ -3,7 +3,9 @@ package com.ou.pbarr.othello.controller;
 import java.util.logging.Logger;
 import com.ou.pbarr.othello.gui.View;
 import com.ou.pbarr.othello.model.Model;
+import com.ou.pbarr.othello.model.OutOfOthelloBoardBoundsException;
 import com.ou.pbarr.othello.model.SearchStrategyDoesNotExistException;
+import com.ou.pbarr.othello.model.TokenAlreadyExistsInSquareException;
 import com.ou.pbarr.othello.model.Token.Type;
 
 public class SimpleController implements Controller
@@ -110,6 +112,17 @@ public class SimpleController implements Controller
 	@Override
 	public void selectSquare(int xSquare, int ySquare)
 	{
-		model.move(xSquare, ySquare);
+		try
+		{
+			model.makeMove(xSquare, ySquare);
+		}
+		catch (OutOfOthelloBoardBoundsException e)
+		{
+			view.displayError(View.ERROR_CANNOT_PLACE_TOKEN_OUT_OF_BOUNDS);
+		}
+		catch (TokenAlreadyExistsInSquareException e)
+		{
+			view.displayError(View.ERROR_TOKEN_ALREADY_EXISTS);
+		}
 	}
 }

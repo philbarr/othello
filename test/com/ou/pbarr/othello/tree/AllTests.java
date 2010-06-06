@@ -8,6 +8,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
 	/* BreadthFirstSearchStrategyTest.class, */
 	DepthFirstSearchStrategyTest.class, 
-	TreeTest.class})
+	TreeTest.class,
+	RandomSelectionSearchStrategyTest.class,
+	})
 public class AllTests
 {}

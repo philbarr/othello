@@ -236,11 +236,6 @@ public class OthelloBoardPanel extends JPanel
 		frame.setVisible(true);
 	}
 
-	public void setDrawGhostTokens(boolean drawTokens)
-	{
-		this.drawGhostTokens = drawTokens;
-	}
-
 	/**
 	 * This class listens for mouse clicks, determines which Othello square
 	 * the mouse was clicked in and informs any registered

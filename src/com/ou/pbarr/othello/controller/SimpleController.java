@@ -115,6 +115,7 @@ public class SimpleController implements Controller
 		try
 		{
 			model.makeMove(xSquare, ySquare);
+			view.updateBoard();
 		}
 		catch (OutOfOthelloBoardBoundsException e)
 		{

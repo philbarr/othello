@@ -1,7 +1,9 @@
 package com.ou.pbarr.othello.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 import com.ou.pbarr.othello.model.Token.Type;
 
@@ -44,7 +46,7 @@ public class OthelloState
 	 */
 	public List<Token> getPossibleNextPositions(Token.Type colour)
 	{
-		List<Token> nextPositions = new ArrayList<Token>();
+		Set<Token> nextPositions = new HashSet<Token>();
 		for (Token[] horizontalTokens : board)
 		{
 			for (Token token : horizontalTokens)
@@ -55,7 +57,7 @@ public class OthelloState
 				}
 			}
 		}
-		return nextPositions;
+		return new ArrayList<Token>(nextPositions);
 	}
 
 	private List<Token> findTokensOfTypeFrom(Token startToken, Type endTokenType)
@@ -84,12 +86,17 @@ public class OthelloState
 	private Token findTokensOfTypeOnVector(Token startToken, Type endTokenType,
 			int xVector, int yVector)
 	{
-		boolean opponentTypeFound = false;
+		int opponentTypeFound = 0;
+		int currentTypeFound = 0;
 		int currentX = startToken.getX();
 		int currentY = startToken.getY();
-		Token.Type currentType = startToken.getType();
-		Token.Type opponentType = currentType == Token.Type.BLACK ? Token.Type.WHITE
+		Token.Type opponentType = startToken.getType() == Token.Type.BLACK ? Token.Type.WHITE
 				: Token.Type.BLACK;
+		if (startToken.getType() == endTokenType ||
+				endTokenType == null)
+		{
+			currentTypeFound++;
+		}
 
 		while (currentX > 1 && currentX < OTHELLO_BOARD_SIZE && currentY > 1
 				&& currentY < OTHELLO_BOARD_SIZE)
@@ -99,49 +106,30 @@ public class OthelloState
 			currentY += yVector;
 
 			// check the token at this board position
-			Token tokenToCheck = getSquare(currentX, currentY);
-
-			// it it's a blank square
-			if (tokenToCheck == null)
+			Token tokenInSquareToCheck = getSquare(currentX, currentY);
+			Token.Type typeOfTokenInSquareToCheck = tokenInSquareToCheck == null ? null : tokenInSquareToCheck.getType();
+			
+			if (typeOfTokenInSquareToCheck == endTokenType &&
+					opponentTypeFound == 1 &&
+					currentTypeFound == 1)
 			{
-				// if it's the type we're looking for, return it
-				if (opponentTypeFound)
+				try
 				{
-					try
-					{
-						return new Token(currentType, currentX, currentY);
-					}
-					catch (OutOfOthelloBoardBoundsException e)
-					{
-						// shouldn't happen because of our previous checks
-						LOG.severe(e.getMessage());
-						return null;
-					}
+					return new Token(typeOfTokenInSquareToCheck, currentX, currentY);
+				}
+				catch (OutOfOthelloBoardBoundsException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
-			else
+			if (typeOfTokenInSquareToCheck == opponentType)
 			{
-				if (tokenToCheck.getType() == currentType)
-				{
-					if (opponentTypeFound)
-					{
-						try
-						{
-							return new Token(currentType, currentX, currentY);
-						}
-						catch (OutOfOthelloBoardBoundsException e)
-						{
-							// shouldn't happen because of our previous checks
-							LOG.severe(e.getMessage());
-							return null;
-						}
-					}
-				}
-				// or it's the oppenent's then acknowledge we've found it
-				else if (tokenToCheck.getType() == opponentType)
-				{
-					opponentTypeFound = true;
-				}
+				opponentTypeFound++;
+			}
+			if (typeOfTokenInSquareToCheck == startToken.getType())
+			{
+				currentTypeFound++;
 			}
 		}
 		return null;

@@ -2,6 +2,7 @@ package com.ou.pbarr.othello.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import com.ou.pbarr.othello.model.Token.Type;
 import com.ou.pbarr.othello.tree.SearchStrategy;
 
@@ -12,16 +13,13 @@ import com.ou.pbarr.othello.tree.SearchStrategy;
  */
 public class OthelloModel implements Model
 {
-	private Token.Type playerColour = Token.Type.WHITE;
+	private static final Logger LOG = Logger.getLogger(OthelloModel.class.getName());
+	private Token.Type currentPlayerColour = Token.Type.BLACK; // black starts
+	private Token.Type playerColour = Token.Type.BLACK; // default to player starts as black
 	private OthelloState state = new OthelloState();
 	private SearchStrategy currentStrategy;
 	private List<SearchStrategy> strategies = new ArrayList<SearchStrategy>();
 
-	public OthelloModel()
-	{
-		newGame();
-	}
-	
 	/**
 	 * Sets the strategy by name. If the name does not exist in the
 	 * current list of strategies, a StrategyDoesNotExistException is thrown.
@@ -81,13 +79,12 @@ public class OthelloModel implements Model
 	@Override
 	public Token[] getPossibleNextMoves()
 	{
-		return state.getPossibleNextPositions(playerColour).toArray(new Token[0]);
+		return state.getPossibleNextPositions(currentPlayerColour).toArray(new Token[0]);
 	}
 
 	@Override
-	public void newGame()
+	public void newGame(Type colour)
 	{
-		//TODO throw proper exceptions if new game fails, at least log properly
 		// set up default board position
   	try
 		{
@@ -99,19 +96,15 @@ public class OthelloModel implements Model
 		} 
   	catch (Exception e)
 		{
-			e.printStackTrace();
+			LOG.severe("Setting up new game failed: " + e.getMessage());
 		}
+  	this.playerColour = colour;
 	}
 
 	@Override
-	public void setPlayerColour(Type colour)
+	public void makeMove(int xSquare, int ySquare) throws OutOfOthelloBoardBoundsException, TokenAlreadyExistsInSquareException, IllegalMoveException
 	{
-		this.playerColour = colour;
-	}
-
-	@Override
-	public void makeMove(int xSquare, int ySquare) throws OutOfOthelloBoardBoundsException, TokenAlreadyExistsInSquareException
-	{
-		state.playToken(new Token(playerColour, xSquare, ySquare));
+		state.playToken(new Token(currentPlayerColour, xSquare, ySquare));
+		currentPlayerColour = currentPlayerColour == Type.BLACK ? Type.WHITE : Type.BLACK;
 	}
 }

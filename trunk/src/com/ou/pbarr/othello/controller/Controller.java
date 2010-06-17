@@ -2,6 +2,7 @@ package com.ou.pbarr.othello.controller;
 
 import com.ou.pbarr.othello.gui.View;
 import com.ou.pbarr.othello.model.Model;
+import com.ou.pbarr.othello.model.Token.Type;
 
 public interface Controller
 {
@@ -20,7 +21,7 @@ public interface Controller
 
 	String[] getStrategies();
 
-	void chooseHumanPlayerColour();
+	Type chooseHumanPlayerColour();
 
 	void changeStrategyByName(String text);
 

@@ -73,7 +73,7 @@ public class OthelloStateTest
 	}
 	
 	@Test
-	public void testPlayToken() throws OutOfOthelloBoardBoundsException, TokenAlreadyExistsInSquareException
+	public void testPlayToken() throws OutOfOthelloBoardBoundsException, TokenAlreadyExistsInSquareException, IllegalMoveException
 	{
 		Token[] expected = new Token[]{
 				new Token(Type.BLACK, 4, 4),
@@ -87,8 +87,15 @@ public class OthelloStateTest
 		assertArrayEquals(expected, actual);
 	}
 	
+	@Test(expected=IllegalMoveException.class)
+	public void testPlayTokenIllegalMove() throws TokenAlreadyExistsInSquareException, OutOfOthelloBoardBoundsException, IllegalMoveException
+	{
+		state.addToken(new Token(Type.BLACK, 1, 1));
+		state.playToken(new Token(Type.BLACK, 6, 5));
+	}
+	
 	@Test(expected = TokenAlreadyExistsInSquareException.class)
-	public void testPlayTokenAlreadyExists() throws OutOfOthelloBoardBoundsException, TokenAlreadyExistsInSquareException
+	public void testPlayTokenAlreadyExists() throws OutOfOthelloBoardBoundsException, TokenAlreadyExistsInSquareException, IllegalMoveException
 	{
 		state.addToken(new Token(Type.BLACK, 6, 6));
 		state.playToken(new Token(Type.WHITE, 6, 6));
@@ -99,6 +106,26 @@ public class OthelloStateTest
 	{
 		state.addToken(new Token(Type.BLACK, 6, 6));
 		state.addToken(new Token(Type.WHITE, 6, 6));
-		
+	}
+	
+	@Test
+	public void testPlayToken1() throws OutOfOthelloBoardBoundsException, TokenAlreadyExistsInSquareException, IllegalMoveException
+	{
+		Token[] expected = new Token[]{
+				new Token(Type.WHITE, 4, 4),
+				new Token(Type.BLACK, 4, 5),
+				new Token(Type.BLACK, 5, 4),
+				new Token(Type.WHITE, 5, 5),
+				new Token(Type.BLACK, 5, 6),
+				new Token(Type.WHITE, 6, 6),
+		};
+		state.addToken(new Token(Type.WHITE, 4, 4));
+		state.addToken(new Token(Type.BLACK, 4, 5));
+		state.addToken(new Token(Type.BLACK, 5, 4));
+		state.addToken(new Token(Type.WHITE, 5, 5));
+		state.playToken(new Token(Type.BLACK, 5, 6));
+		state.playToken(new Token(Type.WHITE, 6, 6));
+		Token[] actual = state.getTokens();
+		assertArrayEquals(expected, actual);
 	}
 }

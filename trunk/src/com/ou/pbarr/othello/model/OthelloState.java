@@ -30,7 +30,7 @@ public class OthelloState
 	 */
 	public void addToken(Token token) throws TokenAlreadyExistsInSquareException
 	{
-		checkTokenIsLegal(token);
+		checkTokenSquareIsEmpty(token);
 		board[token.getX() - 1][token.getY() - 1] = token;
 	}
 
@@ -180,10 +180,11 @@ public class OthelloState
 	 * @param token
 	 * @throws TokenAlreadyExistsInSquareException
 	 * @throws OutOfOthelloBoardBoundsException
+	 * @throws IllegalMoveException 
 	 */
 	public void playToken(Token token)
 			throws TokenAlreadyExistsInSquareException,
-			OutOfOthelloBoardBoundsException
+			OutOfOthelloBoardBoundsException, IllegalMoveException
 	{
 		checkTokenIsLegal(token);
 		addToken(token);
@@ -201,14 +202,26 @@ public class OthelloState
 				: start.getX() - end.getX() < 0 ? 1 : -1;
 		int yUnit = start.getY() - end.getY() == 0 ? 0
 				: start.getY() - end.getY() < 0 ? 1 : -1;
-		
-		for (int x = start.getX(), y = start.getY(); (!(x==end.getX() && y == end.getY())); x += xUnit, y += yUnit)
+
+		for (int x = start.getX(), y = start.getY(); (!(x == end.getX() && y == end
+				.getY())); x += xUnit, y += yUnit)
 		{
 			board[x - 1][y - 1] = new Token(type, x, y);
 		}
 	}
 
 	private void checkTokenIsLegal(Token token)
+			throws TokenAlreadyExistsInSquareException, IllegalMoveException
+	{
+		checkTokenSquareIsEmpty(token);
+		if (findTokensOfTypeFrom(token, token.getType()).isEmpty())
+		{
+			throw new IllegalMoveException("At square: " 
+					+ token.getX() + ", y: " + token.getY());
+		}
+	}
+
+	private void checkTokenSquareIsEmpty(Token token)
 			throws TokenAlreadyExistsInSquareException
 	{
 		if (getSquare(token.getX(), token.getY()) != null)

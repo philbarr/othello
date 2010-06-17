@@ -28,7 +28,7 @@ public class Main
 		View othelloFrame = new OthelloMainFrame(controller, model);
 		controller.setView(othelloFrame);
 		
-		// tell the controller to find out which colour the player wants to be
-		controller.chooseHumanPlayerColour();
+		// tell the controller to kick things off
+		controller.callActionByName(Controller.ACTION_NEW);
 	}
 }

@@ -16,10 +16,7 @@ public interface Model
 
 	Token[] getPossibleNextMoves();
 
-	void newGame();
+	void makeMove(int xSquare, int ySquare) throws OutOfOthelloBoardBoundsException, TokenAlreadyExistsInSquareException, IllegalMoveException;
 
-	void setPlayerColour(Type black);
-
-	void makeMove(int xSquare, int ySquare) throws OutOfOthelloBoardBoundsException, TokenAlreadyExistsInSquareException;
-
+	void newGame(Type colour);
 }

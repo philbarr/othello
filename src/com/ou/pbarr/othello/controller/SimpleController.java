@@ -2,6 +2,7 @@ package com.ou.pbarr.othello.controller;
 
 import java.util.logging.Logger;
 import com.ou.pbarr.othello.gui.View;
+import com.ou.pbarr.othello.model.IllegalMoveException;
 import com.ou.pbarr.othello.model.Model;
 import com.ou.pbarr.othello.model.OutOfOthelloBoardBoundsException;
 import com.ou.pbarr.othello.model.SearchStrategyDoesNotExistException;
@@ -67,8 +68,7 @@ public class SimpleController implements Controller
 
 	private void newGame()
 	{
-		model.newGame();
-		chooseHumanPlayerColour();
+		model.newGame(chooseHumanPlayerColour());
 		view.updateBoard();
 	}
 
@@ -80,18 +80,18 @@ public class SimpleController implements Controller
 	}
 
 	@Override
-	public void chooseHumanPlayerColour()
+	public Type chooseHumanPlayerColour()
 	{
 		String colourChoice = view.askForHumanPlayerColour();
 		LOG.info("chose human player colour: " + colourChoice);
 		
 		if (View.PLAYER_COLOUR_BLACK.equals(colourChoice))
 		{
-			model.setPlayerColour(Type.BLACK);
+			return Type.BLACK;
 		}
 		else
 		{
-			model.setPlayerColour(Type.WHITE);
+			return Type.WHITE;
 		}
 	}
 
@@ -124,6 +124,11 @@ public class SimpleController implements Controller
 		catch (TokenAlreadyExistsInSquareException e)
 		{
 			view.displayError(View.ERROR_TOKEN_ALREADY_EXISTS);
+		}
+		catch (IllegalMoveException e)
+		{
+			// don't do anything, but log the attempt
+			LOG.info("Player tried illegal move: " + e.getMessage());
 		}
 	}
 }

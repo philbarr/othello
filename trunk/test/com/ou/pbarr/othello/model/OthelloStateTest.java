@@ -128,4 +128,18 @@ public class OthelloStateTest
 		Token[] actual = state.getTokens();
 		assertArrayEquals(expected, actual);
 	}
+	
+	@Test
+	public void testGetPossibleNextPositionsAlternatingSequenceInline() throws TokenAlreadyExistsInSquareException, OutOfOthelloBoardBoundsException
+	{
+		Token[] expected = new Token[]{
+				new Token(Type.WHITE, 2, 1)
+		};
+		state.addToken(new Token(Type.BLACK, 2,2));
+		state.addToken(new Token(Type.WHITE, 2,3));
+		state.addToken(new Token(Type.BLACK, 2,4));
+		state.addToken(new Token(Type.WHITE, 2,5));
+		Token[] actual = state.getPossibleNextPositions(null).toArray(new Token[1]);
+		assertArrayEquals(expected, actual);
+	}
 }

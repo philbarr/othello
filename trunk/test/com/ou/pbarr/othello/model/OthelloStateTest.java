@@ -139,7 +139,48 @@ public class OthelloStateTest
 		state.addToken(new Token(Type.WHITE, 2,3));
 		state.addToken(new Token(Type.BLACK, 2,4));
 		state.addToken(new Token(Type.WHITE, 2,5));
-		Token[] actual = state.getPossibleNextPositions(null).toArray(new Token[1]);
+		Token[] actual = state.getPossibleNextPositions(Type.WHITE).toArray(new Token[1]);
 		assertArrayEquals(expected, actual);
 	}
+	
+	@Test
+	public void testGetPossibleNextPositions() throws TokenAlreadyExistsInSquareException, OutOfOthelloBoardBoundsException
+	{
+		state.addToken(new Token(Type.BLACK, 1, 1));
+		Token[] actual = state.getPossibleNextPositions(Type.BLACK).toArray(new Token[0]);
+		assertEquals(0, actual.length);
+	}
+	
+	@Test
+	public void testPlayTokenOnSide() throws TokenAlreadyExistsInSquareException, OutOfOthelloBoardBoundsException, IllegalMoveException
+	{
+		Token[] expected = new Token[]{
+				new Token(Type.BLACK, 1, 6),
+				new Token(Type.BLACK, 1, 7),
+				new Token(Type.BLACK, 1, 8)
+		};
+		state.addToken(new Token(Type.BLACK, 1, 6));
+		state.addToken(new Token(Type.WHITE, 1, 7));
+		state.playToken(new Token(Type.BLACK, 1, 8));
+		assertArrayEquals(expected, state.getTokens());
+	}
+	
+	@Test(expected = IllegalMoveException.class)
+	public void testPlayBlankSquares() throws TokenAlreadyExistsInSquareException, OutOfOthelloBoardBoundsException, IllegalMoveException
+	{
+		state.addToken(new Token(Type.BLACK, 1, 3));
+		state.addToken(new Token(Type.WHITE, 1, 4));
+		state.playToken(new Token(Type.BLACK, 1, 6));
+	}
+	
+	@Test
+	public void testGetPossibleNextPositions3() throws TokenAlreadyExistsInSquareException, OutOfOthelloBoardBoundsException
+	{
+		state.addToken(new Token(Type.BLACK, 1, 1));
+		state.addToken(new Token(Type.BLACK, 1, 2));
+		state.addToken(new Token(Type.WHITE, 1, 3));
+		List<Token> tokens = state.getPossibleNextPositions(Type.WHITE);
+		assertEquals(0, tokens.size());
+	}
+	
 }

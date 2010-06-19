@@ -71,8 +71,15 @@ public class OthelloState
 				// (0, 0)
 				if (!(x == 0 && y == 0))
 				{
-					Token position = findTokensOfTypeOnVector(startToken, endTokenType,
-							x, y);
+					Token position = null;
+					if (endTokenType == null)
+					{
+						position = findBlankSquaresOnVector(startToken, x, y);
+					}
+					else
+					{
+						position = findTokenOfTypeOnVector(startToken, endTokenType, x, y);
+					}
 					if (position != null)
 					{
 						nextPositions.add(position);
@@ -83,56 +90,114 @@ public class OthelloState
 		return nextPositions;
 	}
 
-	private Token findTokensOfTypeOnVector(Token startToken, Type endTokenType,
-			int xVector, int yVector)
+	private Token findTokenOfTypeOnVector(Token startToken, Type endTokenType, int xVector, int yVector)
 	{
-		int opponentTypeFound = 0;
-		int currentTypeFound = 0;
+		boolean opponentTypeFound = false;
+		boolean currentTypeFound = false;
+		Token.Type opponentType = startToken.getType() == Token.Type.BLACK ? Token.Type.WHITE
+				: Token.Type.BLACK;
+		Token tokenInSquareToCheck = null;
+		int currentX = startToken.getX(), currentY = startToken.getY();
+		for ( ; isInBounds(currentX, currentY) ; currentX+=xVector, currentY+=yVector)
+		{
+			// ignore starting square
+			if (startToken.getX() == currentX && startToken.getY() == currentY)
+			{
+				continue;
+			}
+			
+		// check the token at this board position
+			tokenInSquareToCheck = getSquare(currentX, currentY);
+			
+			// end of the line if the square is empty
+			if (tokenInSquareToCheck == null)
+			{
+				return null;
+			}
+			
+			Token.Type typeOfTokenInSquareToCheck = tokenInSquareToCheck == null ? null
+					: tokenInSquareToCheck.getType();
+
+			// update the checks to see if what types we have found
+			currentTypeFound = currentTypeFound
+					| (typeOfTokenInSquareToCheck == startToken.getType());
+			opponentTypeFound = opponentTypeFound
+					| (typeOfTokenInSquareToCheck == opponentType);
+			
+			if (typeOfTokenInSquareToCheck == startToken.getType())
+			{
+				break;
+			}
+			
+		}
+		if (currentTypeFound && opponentTypeFound)
+		{
+			try
+			{
+				return new Token(startToken.getType(), currentX, currentY);
+			}
+			catch (OutOfOthelloBoardBoundsException e)
+			{
+				LOG.severe("Unexpected exception creating token: " + e.getMessage());
+			}
+		}
+		return null;
+	}
+
+	private Token findBlankSquaresOnVector(Token startToken, int xVector,
+			int yVector)
+	{
+		boolean opponentTypeFound = false;
+		boolean currentTypeFound = false;
 		int currentX = startToken.getX();
 		int currentY = startToken.getY();
 		Token.Type opponentType = startToken.getType() == Token.Type.BLACK ? Token.Type.WHITE
 				: Token.Type.BLACK;
-		if (startToken.getType() == endTokenType ||
-				endTokenType == null)
-		{
-			currentTypeFound++;
-		}
 
-		while (currentX > 1 && currentX < OTHELLO_BOARD_SIZE && currentY > 1
-				&& currentY < OTHELLO_BOARD_SIZE)
+		Token tokenInSquareToCheck = null;
+
+		do
 		{
 			// move along the path one step
 			currentX += xVector;
 			currentY += yVector;
+			
+			if (!isInBounds(currentX, currentY))
+			{
+				return null;
+			}
 
 			// check the token at this board position
-			Token tokenInSquareToCheck = getSquare(currentX, currentY);
-			Token.Type typeOfTokenInSquareToCheck = tokenInSquareToCheck == null ? null : tokenInSquareToCheck.getType();
-			
-			if (typeOfTokenInSquareToCheck == endTokenType &&
-					opponentTypeFound == 1 &&
-					currentTypeFound == 1)
+			tokenInSquareToCheck = getSquare(currentX, currentY);
+			Token.Type typeOfTokenInSquareToCheck = tokenInSquareToCheck == null ? null
+					: tokenInSquareToCheck.getType();
+
+			// update the checks to see if what types we have found
+			currentTypeFound = currentTypeFound
+					| (typeOfTokenInSquareToCheck == startToken.getType());
+			opponentTypeFound = opponentTypeFound
+					| (typeOfTokenInSquareToCheck == opponentType);
+		}
+		while (tokenInSquareToCheck != null);
+
+		if (!currentTypeFound && opponentTypeFound)
+		{
+			try
 			{
-				try
-				{
-					return new Token(typeOfTokenInSquareToCheck, currentX, currentY);
-				}
-				catch (OutOfOthelloBoardBoundsException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				return new Token(startToken.getType(), currentX, currentY);
 			}
-			if (typeOfTokenInSquareToCheck == opponentType)
+			catch (OutOfOthelloBoardBoundsException e)
 			{
-				opponentTypeFound++;
-			}
-			if (typeOfTokenInSquareToCheck == startToken.getType())
-			{
-				currentTypeFound++;
+				LOG.severe("Unexpected exception creating token: " + e.getMessage());
 			}
 		}
+
 		return null;
+	}
+
+	private boolean isInBounds(int x, int y)
+	{
+		return (x >= 1 && x <= OTHELLO_BOARD_SIZE && y >= 1 && y <= OTHELLO_BOARD_SIZE);
 	}
 
 	public Token[] getTokens()
@@ -168,7 +233,7 @@ public class OthelloState
 	 * @param token
 	 * @throws TokenAlreadyExistsInSquareException
 	 * @throws OutOfOthelloBoardBoundsException
-	 * @throws IllegalMoveException 
+	 * @throws IllegalMoveException
 	 */
 	public void playToken(Token token)
 			throws TokenAlreadyExistsInSquareException,
@@ -204,8 +269,8 @@ public class OthelloState
 		checkTokenSquareIsEmpty(token);
 		if (findTokensOfTypeFrom(token, token.getType()).isEmpty())
 		{
-			throw new IllegalMoveException("At square: " 
-					+ token.getX() + ", y: " + token.getY());
+			throw new IllegalMoveException("At square: " + token.getX() + ", y: "
+					+ token.getY());
 		}
 	}
 

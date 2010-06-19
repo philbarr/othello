@@ -70,6 +70,7 @@ public class SimpleController implements Controller
 	{
 		model.newGame(chooseHumanPlayerColour());
 		view.updateBoard();
+		view.setInfoMessage("New game. Player is " + model.getPlayerColour());
 	}
 
 	@Override
@@ -116,6 +117,7 @@ public class SimpleController implements Controller
 		{
 			model.makeMove(xSquare, ySquare);
 			view.updateBoard();
+			view.setInfoMessage(model.getCurrentPlayer() + " to play.");
 		}
 		catch (OutOfOthelloBoardBoundsException e)
 		{

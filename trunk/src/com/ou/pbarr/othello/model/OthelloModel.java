@@ -107,4 +107,16 @@ public class OthelloModel implements Model
 		state.playToken(new Token(currentPlayerColour, xSquare, ySquare));
 		currentPlayerColour = currentPlayerColour == Type.BLACK ? Type.WHITE : Type.BLACK;
 	}
+
+	@Override
+	public Type getCurrentPlayer()
+	{
+		return currentPlayerColour;
+	}
+
+	@Override
+	public Type getPlayerColour()
+	{
+		return playerColour;
+	}
 }

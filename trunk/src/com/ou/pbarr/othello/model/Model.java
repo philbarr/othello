@@ -19,4 +19,8 @@ public interface Model
 	void makeMove(int xSquare, int ySquare) throws OutOfOthelloBoardBoundsException, TokenAlreadyExistsInSquareException, IllegalMoveException;
 
 	void newGame(Type colour);
+
+	Type getCurrentPlayer();
+
+	Type getPlayerColour();
 }

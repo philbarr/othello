@@ -16,4 +16,6 @@ public interface View
 
 	void displayError(String error);
 
+	void setInfoMessage(String string);
+
 }

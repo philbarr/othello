@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -28,6 +29,7 @@ public class OthelloMainFrame extends JFrame implements View, ActionListener, Ot
 	private Model model;
 	private Controller controller;
 	private OthelloBoardPanel board;
+	private JLabel infoLabel;
 
 	public OthelloMainFrame(Controller controller, Model model)
 	{
@@ -57,8 +59,16 @@ public class OthelloMainFrame extends JFrame implements View, ActionListener, Ot
 		JPanel mainPane = new JPanel();
 		mainPane.setLayout(new BorderLayout());
 		mainPane.add(getBoard(), BorderLayout.CENTER);
+		mainPane.add(getInfoLabel(), BorderLayout.NORTH);
 		mainPane.add(getStrategyOptions(), BorderLayout.EAST);
 		return mainPane;
+	}
+
+	private JLabel getInfoLabel()
+	{
+		infoLabel = new JLabel();
+		infoLabel.setSize(100, 20);
+		return infoLabel;
 	}
 
 	private JPanel getStrategyOptions()
@@ -178,6 +188,12 @@ public class OthelloMainFrame extends JFrame implements View, ActionListener, Ot
 	public void displayError(String error)
 	{
 		JOptionPane.showMessageDialog(this, error, "Error", JOptionPane.ERROR_MESSAGE);
+	}
+
+	@Override
+	public void setInfoMessage(String message)
+	{
+		infoLabel.setText(message);
 	}
 	
 	

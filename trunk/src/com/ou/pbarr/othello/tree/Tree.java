@@ -26,13 +26,14 @@ public class Tree<T>
 	public T findNextState()
 	{
 		// add a heuristic for GOAL
-		return (T)strategy.search(root, null).get(0).getState();
+		return (T) strategy.search(root, null).get(0).getState();
 	}
-	
+
 	/**
 	 * Node class
+	 * 
 	 * @author phil
-	 *
+	 * 
 	 */
 	public class Node
 	{
@@ -109,7 +110,8 @@ public class Tree<T>
 				{
 					return false;
 				}
-			} else if (!state.equals(other.state))
+			}
+			else if (!state.equals(other.state))
 			{
 				return false;
 			}
@@ -137,7 +139,7 @@ public class Tree<T>
 				return null;
 			}
 		}
-		
+
 		public String toString()
 		{
 			return state.toString();
@@ -158,10 +160,13 @@ public class Tree<T>
 		{
 			if (!this.hasChildren() && state instanceof Expandable)
 			{
-				Object[] children = ((Expandable)state).expand();
-				for (Object child : children)
+				Object[] children = ((Expandable) state).expand();
+				if (children != null && children.length != 0)
 				{
-					this.addChild((T)child);
+					for (Object child : children)
+					{
+						this.addChild((T) child);
+					}
 				}
 			}
 			return children;

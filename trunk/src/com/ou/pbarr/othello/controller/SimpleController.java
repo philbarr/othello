@@ -116,6 +116,17 @@ public class SimpleController implements Controller
 		try
 		{
 			model.makeMove(xSquare, ySquare);
+			view.setInfoMessage(model.getCurrentPlayer() + " to play.");
+			view.updateBoard();
+			try
+			{
+				Thread.sleep(500);
+			}
+			catch (InterruptedException e)
+			{
+				LOG.info(e.getMessage());
+			}
+			model.generateMove();
 			view.updateBoard();
 			view.setInfoMessage(model.getCurrentPlayer() + " to play.");
 		}

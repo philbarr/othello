@@ -1,8 +1,7 @@
 package com.ou.pbarr.othello.tree;
 
-import com.ou.pbarr.othello.tree.Tree;
 
-/** Sets up a network that looks like this:
+/** Sets up a tree that looks like this:
  *                1
  *      2                 3
  *   4       5         6        100

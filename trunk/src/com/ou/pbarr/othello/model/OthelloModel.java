@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import com.ou.pbarr.othello.model.Token.Type;
 import com.ou.pbarr.othello.tree.SearchStrategy;
+import com.ou.pbarr.othello.tree.Tree;
 
 /**
  * Stores information about the application state, including the state of the board. Player's play as WHITE
@@ -105,7 +106,7 @@ public class OthelloModel implements Model
 	public void makeMove(int xSquare, int ySquare) throws OutOfOthelloBoardBoundsException, TokenAlreadyExistsInSquareException, IllegalMoveException
 	{
 		state.playToken(new Token(currentPlayerColour, xSquare, ySquare));
-		currentPlayerColour = currentPlayerColour == Type.BLACK ? Type.WHITE : Type.BLACK;
+		flipCurrentPlayer();
 	}
 
 	@Override
@@ -118,5 +119,16 @@ public class OthelloModel implements Model
 	public Type getPlayerColour()
 	{
 		return playerColour;
+	}
+
+	private void flipCurrentPlayer()
+	{
+		currentPlayerColour = currentPlayerColour == Type.BLACK ? Type.WHITE : Type.BLACK;
+	}
+
+	@Override
+	public void generateMove()
+	{
+		Tree<OthelloState> tree = new Tree<OthelloState>(state);
 	}
 }

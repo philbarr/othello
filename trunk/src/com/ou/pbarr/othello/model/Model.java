@@ -23,4 +23,6 @@ public interface Model
 	Type getCurrentPlayer();
 
 	Type getPlayerColour();
+
+	void generateMove();
 }

@@ -19,6 +19,7 @@ public class OthelloState
 	private final static Logger LOG = Logger.getLogger(OthelloState.class
 			.getName());
 	private Token[][] board = new Token[OTHELLO_BOARD_SIZE][OTHELLO_BOARD_SIZE];
+	private Token lastCreatedToken = null;
 
 	/**
 	 * Adds a new token to the board. If a token already exists at this location,
@@ -34,6 +35,7 @@ public class OthelloState
 	{
 		checkTokenSquareIsEmpty(token);
 		board[token.getX() - 1][token.getY() - 1] = token;
+		lastCreatedToken = token;
 	}
 
 	/**
@@ -225,6 +227,7 @@ public class OthelloState
 				board[i][j] = null;
 			}
 		}
+		lastCreatedToken = null;
 	}
 
 	/**

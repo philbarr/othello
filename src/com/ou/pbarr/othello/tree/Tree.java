@@ -23,6 +23,12 @@ public class Tree<T>
 		this.strategy = strategy;
 	}
 
+	public T findNextState()
+	{
+		// add a heuristic for GOAL
+		return (T)strategy.search(root, null).get(0).getState();
+	}
+	
 	/**
 	 * Node class
 	 * @author phil
@@ -147,8 +153,17 @@ public class Tree<T>
 			return children.get(index);
 		}
 
+		@SuppressWarnings("unchecked")
 		public List<Node> getChildren()
 		{
+			if (!this.hasChildren() && state instanceof Expandable)
+			{
+				Object[] children = ((Expandable)state).expand();
+				for (Object child : children)
+				{
+					this.addChild((T)child);
+				}
+			}
 			return children;
 		}
 

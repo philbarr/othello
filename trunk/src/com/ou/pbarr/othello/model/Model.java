@@ -25,4 +25,8 @@ public interface Model
 	Type getPlayerColour();
 
 	void generateMove();
+
+	boolean gameIsFinished();
+
+	int getTokenCountFor(Type white);
 }

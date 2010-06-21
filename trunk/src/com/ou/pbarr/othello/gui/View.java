@@ -18,4 +18,5 @@ public interface View
 
 	void setInfoMessage(String string);
 
+	void setBoardFrozenState(boolean frozen);
 }

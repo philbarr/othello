@@ -23,20 +23,23 @@ import com.ou.pbarr.othello.gui.GameToken.Colour;
 import com.ou.pbarr.othello.model.Model;
 import com.ou.pbarr.othello.model.Token;
 
-public class OthelloMainFrame extends JFrame implements View, ActionListener, OthelloBoardPanelListener
+public class OthelloMainFrame extends JFrame implements View, ActionListener,
+		OthelloBoardPanelListener
 {
-	private final static Logger LOG = Logger.getLogger(OthelloMainFrame.class.getName());
+	private final static Logger LOG = Logger.getLogger(OthelloMainFrame.class
+			.getName());
 	private Model model;
 	private Controller controller;
 	private OthelloBoardPanel board;
 	private JLabel infoLabel;
+	private boolean boardFrozen = false;
 
 	public OthelloMainFrame(Controller controller, Model model)
 	{
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.controller = controller;
 		this.model = model;
-		
+
 		this.addWindowListener(new WindowAdapter()
 		{
 			@Override
@@ -45,10 +48,10 @@ public class OthelloMainFrame extends JFrame implements View, ActionListener, Ot
 				OthelloMainFrame.this.controller.quit();
 			}
 		});
-		
-		this.setJMenuBar(getFileMenu());	
+
+		this.setJMenuBar(getFileMenu());
 		this.setContentPane(getMainPanel());
-		this.setSize(400,400);
+		this.setSize(400, 400);
 		this.setTitle("Othello");
 		this.setVisible(true);
 		LOG.info("OthelloMainFrame constructed");
@@ -116,32 +119,33 @@ public class OthelloMainFrame extends JFrame implements View, ActionListener, Ot
 		fileMenu.add(exitMenuItem);
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.add(fileMenu);
-		
+
 		return menuBar;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() instanceof JMenuItem)
 		{
-			String text = ((JMenuItem)e.getSource()).getText();
+			String text = ((JMenuItem) e.getSource()).getText();
 			controller.callActionByName(text);
 		}
 		else if (e.getSource() instanceof JRadioButton)
 		{
-			String text = ((JRadioButton)e.getSource()).getText();
+			String text = ((JRadioButton) e.getSource()).getText();
 			controller.changeStrategyByName(text);
 		}
 	}
 
 	/**
-	 * Retrieve the current board state from the model and update the user interface
+	 * Retrieve the current board state from the model and update the user
+	 * interface
 	 */
 	public void updateBoard()
 	{
 		List<GameToken> gameTokens = new ArrayList<GameToken>();
-		
+
 		for (Token token : model.getTokens())
 		{
 			Colour colour = null;
@@ -155,12 +159,15 @@ public class OthelloMainFrame extends JFrame implements View, ActionListener, Ot
 			}
 			gameTokens.add(new GameToken(colour, token.getX(), token.getY()));
 		}
-		
-		for (Token token : model.getPossibleNextMoves())
+
+		if (!boardFrozen)
 		{
-			gameTokens.add(new GameToken(Colour.GHOST, token.getX(), token.getY()));
+			for (Token token : model.getPossibleNextMoves())
+			{
+				gameTokens.add(new GameToken(Colour.GHOST, token.getX(), token.getY()));
+			}
 		}
-		
+
 		board.setTokens(gameTokens);
 		repaint();
 	}
@@ -169,25 +176,28 @@ public class OthelloMainFrame extends JFrame implements View, ActionListener, Ot
 	public String askForHumanPlayerColour()
 	{
 		Object selectedValue = JOptionPane.showInputDialog(this,
-				"Which colour would you like to play as?", 
-				"Select Colour",
-				JOptionPane.INFORMATION_MESSAGE, 
-				null,
-				new String[]{PLAYER_COLOUR_BLACK, PLAYER_COLOUR_WHITE}, null);
+				"Which colour would you like to play as?", "Select Colour",
+				JOptionPane.INFORMATION_MESSAGE, null, new String[] {
+						PLAYER_COLOUR_BLACK, PLAYER_COLOUR_WHITE }, null);
 		return (String) selectedValue;
 	}
 
 	@Override
 	public void squareClicked(int xSquare, int ySquare)
 	{
-		LOG.info("OthelloBoardPanel clicked square: x: " + xSquare + ", y: " + ySquare);
-		controller.selectSquare(xSquare, ySquare);
+		LOG.info("OthelloBoardPanel clicked square: x: " + xSquare + ", y: "
+				+ ySquare);
+		if (!boardFrozen)
+		{
+			controller.selectSquare(xSquare, ySquare);
+		}
 	}
 
 	@Override
 	public void displayError(String error)
 	{
-		JOptionPane.showMessageDialog(this, error, "Error", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(this, error, "Error",
+				JOptionPane.ERROR_MESSAGE);
 	}
 
 	@Override
@@ -195,6 +205,10 @@ public class OthelloMainFrame extends JFrame implements View, ActionListener, Ot
 	{
 		infoLabel.setText(message);
 	}
-	
-	
+
+	@Override
+	public void setBoardFrozenState(boolean frozen)
+	{
+		boardFrozen = frozen;
+	}
 }

@@ -11,10 +11,17 @@ import com.ou.pbarr.othello.model.Token.Type;
 
 public class SimpleController implements Controller
 {
-	private static final Logger LOG = Logger.getLogger(SimpleController.class.getName());
+	private static final Logger LOG = Logger.getLogger(SimpleController.class
+			.getName());
 	private View view;
 	private Model model;
-	
+	private GameState gameState = GameState.BEFORE_GAME;
+	private enum GameState{
+		BEFORE_GAME,
+		PLAYING,
+		FINISHED, 
+	}
+
 	public void quit()
 	{
 		LOG.info("closing");
@@ -57,18 +64,28 @@ public class SimpleController implements Controller
 	private void save()
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void load()
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void newGame()
 	{
 		model.newGame(chooseHumanPlayerColour());
+		try
+		{
+			model.setStrategyByName(model.getStrategyNames()[0]);
+		}
+		catch (SearchStrategyDoesNotExistException e)
+		{
+			LOG.severe("error setting default strategy: " + e.getMessage());
+		}
+		view.setBoardFrozenState(false);
+		gameState = GameState.PLAYING;
 		view.updateBoard();
 		view.setInfoMessage("New game. Player is " + model.getPlayerColour());
 	}
@@ -85,7 +102,7 @@ public class SimpleController implements Controller
 	{
 		String colourChoice = view.askForHumanPlayerColour();
 		LOG.info("chose human player colour: " + colourChoice);
-		
+
 		if (View.PLAYER_COLOUR_BLACK.equals(colourChoice))
 		{
 			return Type.BLACK;
@@ -116,19 +133,20 @@ public class SimpleController implements Controller
 		try
 		{
 			model.makeMove(xSquare, ySquare);
-			view.setInfoMessage(model.getCurrentPlayer() + " to play.");
-			view.updateBoard();
-			try
+			if (!gameIsFinished())
 			{
-				Thread.sleep(500);
+				view.setInfoMessage(model.getCurrentPlayer()
+						+ " to play. White tokens: " + model.getTokenCountFor(Type.WHITE)
+						+ " - Black tokens: " + model.getTokenCountFor(Type.BLACK));
+				model.generateMove();
+				if (!gameIsFinished())
+				{
+					view.updateBoard();
+					view.setInfoMessage(model.getCurrentPlayer()
+							+ " to play. White tokens: " + model.getTokenCountFor(Type.WHITE)
+							+ " - Black tokens: " + model.getTokenCountFor(Type.BLACK));
+				}
 			}
-			catch (InterruptedException e)
-			{
-				LOG.info(e.getMessage());
-			}
-			model.generateMove();
-			view.updateBoard();
-			view.setInfoMessage(model.getCurrentPlayer() + " to play.");
 		}
 		catch (OutOfOthelloBoardBoundsException e)
 		{
@@ -143,5 +161,37 @@ public class SimpleController implements Controller
 			// don't do anything, but log the attempt
 			LOG.info("Player tried illegal move: " + e.getMessage());
 		}
+	}
+
+	private boolean gameIsFinished()
+	{
+		if (gameState == GameState.FINISHED)
+		{
+			return true;
+		}
+		if (model.gameIsFinished())
+		{
+			LOG.info("Game finished");
+			view.setBoardFrozenState(true);
+			int whiteCount = model.getTokenCountFor(Type.WHITE);
+			int blackCount = model.getTokenCountFor(Type.BLACK);
+
+			if (whiteCount > blackCount)
+			{
+				view.setInfoMessage("White has won!");
+			}
+			else if (blackCount > whiteCount)
+			{
+				view.setInfoMessage("Black has won!");
+			}
+			else if (blackCount == whiteCount)
+			{
+				view.setInfoMessage("It's a draw!");
+			}
+			gameState = GameState.FINISHED;
+			view.updateBoard();
+			return true;
+		}
+		return false;
 	}
 }

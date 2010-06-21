@@ -20,6 +20,7 @@ public class OthelloModel implements Model
 	private OthelloState state = new OthelloState();
 	private SearchStrategy currentStrategy;
 	private List<SearchStrategy> strategies = new ArrayList<SearchStrategy>();
+	private boolean isFinished = false;
 
 	/**
 	 * Sets the strategy by name. If the name does not exist in the
@@ -129,6 +130,44 @@ public class OthelloModel implements Model
 	@Override
 	public void generateMove()
 	{
-		Tree<OthelloState> tree = new Tree<OthelloState>(state);
+		OthelloStateExpandable currentState = new OthelloStateExpandable(currentPlayerColour);
+		try
+		{
+			currentState.setTokens(this.getTokens());
+			Tree<OthelloStateExpandable> tree = new Tree<OthelloStateExpandable>(currentState);
+			tree.setStrategy(getCurrentStrategy());
+			Token token = tree.findNextState().getLastCreatedToken();
+			LOG.info(getCurrentStrategy().getName() + " played: " + token);
+			state.playToken(token);
+			flipCurrentPlayer();
+		}
+		catch (Exception e)
+		{
+			LOG.severe("Unexpected error generating move: " + e.getMessage());
+		}
+	}
+
+	@Override
+	public boolean gameIsFinished()
+	{
+		if (!isFinished)
+		{
+			isFinished = state.getPossibleNextPositions(currentPlayerColour).isEmpty();
+		}
+		return isFinished;
+	}
+
+	@Override
+	public int getTokenCountFor(Type type)
+	{
+		int count = 0;
+		for (Token token : state.getTokens())
+		{
+			if (token.getType() == type)
+			{
+				count++;
+			}
+		}
+		return count;
 	}
 }

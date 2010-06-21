@@ -26,7 +26,7 @@ public class Tree<T>
 	public T findNextState()
 	{
 		// add a heuristic for GOAL
-		return (T) strategy.search(root, null).get(0).getState();
+		return (T) strategy.search(root, null).get(1).getState();
 	}
 
 	/**

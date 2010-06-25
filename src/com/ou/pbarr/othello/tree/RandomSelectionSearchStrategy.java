@@ -30,8 +30,9 @@ public class RandomSelectionSearchStrategy implements SearchStrategy
 	{
 		List<Tree<?>.Node> agenda = new ArrayList<Tree<?>.Node>();
 		agenda.add(start);
-		Collections.shuffle(start.getChildren());
-		agenda.add(start.getChild(random.nextInt(start.getChildren().size() -1)));
+		List<Tree<?>.Node> children = start.getChildren();
+		Collections.shuffle(children);
+		agenda.add(children.get(0));
 		return agenda;
 	}
 

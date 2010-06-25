@@ -37,4 +37,15 @@ public class RandomSelectionSearchStrategyTest
 		assertEquals(tree.getRoot(), actual.get(0));
 		assertTrue(expected.contains(actual.get(1)));
 	}
+	
+	@Test
+	public void testSearchOneChild()
+	{
+		List<Tree<String>.Node> expected = new ArrayList<Tree<String>.Node>();
+		Tree<String>.Node four = three.addChild("four");
+		expected.add(four);
+		List<Tree<?>.Node> actual = strategy.search(three, null);
+		assertEquals(2, actual.size());
+		assertEquals(four, actual.get(1));
+	}
 }

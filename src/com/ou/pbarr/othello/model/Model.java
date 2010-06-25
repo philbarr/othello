@@ -24,7 +24,7 @@ public interface Model
 
 	Type getPlayerColour();
 
-	void generateMove();
+	void generateMove() throws TokenAlreadyExistsInSquareException, OutOfOthelloBoardBoundsException, IllegalMoveException;
 
 	boolean gameIsFinished();
 

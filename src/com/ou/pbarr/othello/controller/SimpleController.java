@@ -132,20 +132,22 @@ public class SimpleController implements Controller
 	{
 		try
 		{
-			model.makeMove(xSquare, ySquare);
+				if (model.getCurrentPlayer() == model.getPlayerColour())
+				{
+					model.makeMove(xSquare, ySquare);
+				}
+				else
+				{
+					model.generateMove();
+				}
+			
 			if (!gameIsFinished())
 			{
 				view.setInfoMessage(model.getCurrentPlayer()
 						+ " to play. White tokens: " + model.getTokenCountFor(Type.WHITE)
-						+ " - Black tokens: " + model.getTokenCountFor(Type.BLACK));
-				model.generateMove();
-				if (!gameIsFinished())
-				{
+						+ " - Black tokens: " + model.getTokenCountFor(Type.BLACK)
+						+ ". Player is " + model.getPlayerColour());
 					view.updateBoard();
-					view.setInfoMessage(model.getCurrentPlayer()
-							+ " to play. White tokens: " + model.getTokenCountFor(Type.WHITE)
-							+ " - Black tokens: " + model.getTokenCountFor(Type.BLACK));
-				}
 			}
 		}
 		catch (OutOfOthelloBoardBoundsException e)

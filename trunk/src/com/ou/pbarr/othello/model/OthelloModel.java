@@ -8,8 +8,9 @@ import com.ou.pbarr.othello.tree.SearchStrategy;
 import com.ou.pbarr.othello.tree.Tree;
 
 /**
- * Stores information about the application state, including the state of the board. Player's play as WHITE
- * by default, unless otherwise specified.
+ * Stores information about the application state, including the state of the
+ * board. Player's play as WHITE by default, unless otherwise specified.
+ * 
  * @author pbarr
  */
 public class OthelloModel implements Model
@@ -23,9 +24,10 @@ public class OthelloModel implements Model
 	private boolean isFinished = false;
 
 	/**
-	 * Sets the strategy by name. If the name does not exist in the
-	 * current list of strategies, a StrategyDoesNotExistException is thrown.
-	 * @throws SearchStrategyDoesNotExistException 
+	 * Sets the strategy by name. If the name does not exist in the current list
+	 * of strategies, a StrategyDoesNotExistException is thrown.
+	 * 
+	 * @throws SearchStrategyDoesNotExistException
 	 */
 	@Override
 	public void setStrategyByName(String strategyName) throws SearchStrategyDoesNotExistException
@@ -65,7 +67,7 @@ public class OthelloModel implements Model
 		}
 		return strategyNames;
 	}
-	
+
 	@Override
 	public void addStrategy(SearchStrategy strategy)
 	{
@@ -88,23 +90,26 @@ public class OthelloModel implements Model
 	public void newGame(Type colour)
 	{
 		// set up default board position
-  	try
+		try
 		{
-  		state.clearAllTokens();
-			state.addToken(new Token(Token.Type.WHITE, 4,4));
-			state.addToken(new Token(Token.Type.BLACK, 4,5));
-			state.addToken(new Token(Token.Type.BLACK, 5,4));
-			state.addToken(new Token(Token.Type.WHITE, 5,5));
-		} 
-  	catch (Exception e)
+			state.clearAllTokens();
+			state.addToken(new Token(Token.Type.WHITE, 4, 4));
+			state.addToken(new Token(Token.Type.BLACK, 4, 5));
+			state.addToken(new Token(Token.Type.BLACK, 5, 4));
+			state.addToken(new Token(Token.Type.WHITE, 5, 5));
+			currentPlayerColour = Type.BLACK;
+			isFinished = false;
+		}
+		catch (Exception e)
 		{
 			LOG.severe("Setting up new game failed: " + e.getMessage());
 		}
-  	this.playerColour = colour;
+		this.playerColour = colour;
 	}
 
 	@Override
-	public void makeMove(int xSquare, int ySquare) throws OutOfOthelloBoardBoundsException, TokenAlreadyExistsInSquareException, IllegalMoveException
+	public void makeMove(int xSquare, int ySquare) throws OutOfOthelloBoardBoundsException,
+			TokenAlreadyExistsInSquareException, IllegalMoveException
 	{
 		state.playToken(new Token(currentPlayerColour, xSquare, ySquare));
 		flipCurrentPlayer();
@@ -125,26 +130,25 @@ public class OthelloModel implements Model
 	private void flipCurrentPlayer()
 	{
 		currentPlayerColour = currentPlayerColour == Type.BLACK ? Type.WHITE : Type.BLACK;
+		
+		// if there are no possible positions for the new player, flip back
+		if (state.getPossibleNextPositions(currentPlayerColour).isEmpty())
+		{
+			currentPlayerColour = currentPlayerColour == Type.BLACK ? Type.WHITE : Type.BLACK;
+		}
 	}
 
 	@Override
-	public void generateMove()
+	public void generateMove() throws TokenAlreadyExistsInSquareException, OutOfOthelloBoardBoundsException, IllegalMoveException
 	{
 		OthelloStateExpandable currentState = new OthelloStateExpandable(currentPlayerColour);
-		try
-		{
-			currentState.setTokens(this.getTokens());
-			Tree<OthelloStateExpandable> tree = new Tree<OthelloStateExpandable>(currentState);
-			tree.setStrategy(getCurrentStrategy());
-			Token token = tree.findNextState().getLastCreatedToken();
-			LOG.info(getCurrentStrategy().getName() + " played: " + token);
-			state.playToken(token);
-			flipCurrentPlayer();
-		}
-		catch (Exception e)
-		{
-			LOG.severe("Unexpected error generating move: " + e.getMessage());
-		}
+		currentState.setTokens(this.getTokens());
+		Tree<OthelloStateExpandable> tree = new Tree<OthelloStateExpandable>(currentState);
+		tree.setStrategy(getCurrentStrategy());
+		Token token = tree.findNextState().getLastCreatedToken();
+		LOG.info(getCurrentStrategy().getName() + " played: " + token);
+		state.playToken(token);
+		flipCurrentPlayer();
 	}
 
 	@Override
@@ -152,7 +156,8 @@ public class OthelloModel implements Model
 	{
 		if (!isFinished)
 		{
-			isFinished = state.getPossibleNextPositions(currentPlayerColour).isEmpty();
+			isFinished = state.getPossibleNextPositions(Type.BLACK).isEmpty() &&
+									 state.getPossibleNextPositions(Type.WHITE).isEmpty();
 		}
 		return isFinished;
 	}

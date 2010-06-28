@@ -8,7 +8,7 @@ import com.ou.pbarr.othello.model.OutOfOthelloBoardBoundsException;
 import com.ou.pbarr.othello.model.SearchStrategyDoesNotExistException;
 import com.ou.pbarr.othello.model.TokenAlreadyExistsInSquareException;
 import com.ou.pbarr.othello.model.Token.Type;
-
+ 
 public class SimpleController implements Controller
 {
 	private static final Logger LOG = Logger.getLogger(SimpleController.class

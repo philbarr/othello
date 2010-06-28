@@ -3,7 +3,6 @@ package com.ou.pbarr.othello.tree;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 /**
  * A Random Search Strategy for use with {@link Tree}. This makes completely random
@@ -14,8 +13,6 @@ import java.util.Random;
 public class RandomSelectionSearchStrategy implements SearchStrategy
 {
 
-	private Random random = new Random();
-	
 	@Override
 	public String getName()
 	{

@@ -3,38 +3,41 @@ package com.ou.pbarr.othello.tree;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BreadthFirstSearchStrategy implements SearchStrategy
+public class BreadthFirstSearchStrategy<T> extends SearchStrategy<T>
 {
-	private List<Tree<?>.Node> agenda = new ArrayList<Tree<?>.Node>();
+	private List<Tree<T>.Node> agenda = new ArrayList<Tree<T>.Node>();
+	private Heuristic<T> heuristic;
 
-	public List<Tree<?>.Node> search(Tree<?>.Node start, Tree<?>.Node goal)
+	
+	public List<Tree<T>.Node> search(Tree<T>.Node start, Heuristic<T> heuristic)
 	{
-		List<Tree<?>.Node> parents = new ArrayList<Tree<?>.Node>();
+		this.heuristic = heuristic;
+		List<Tree<T>.Node> parents = new ArrayList<Tree<T>.Node>();
 		parents.add(start);
-		find(parents, goal);
+		find(parents);
 		return agenda;
 	}
 	
-	Tree<?>.Node find(List<Tree<?>.Node> parents, Tree<?>.Node goal)
+	Tree<T>.Node find(List<Tree<T>.Node> parents)
 	{
 		System.out.println(parents);
-		List<Tree<?>.Node> newParents = new ArrayList<Tree<?>.Node>();
+		List<Tree<T>.Node> newParents = new ArrayList<Tree<T>.Node>();
 		
-		for (Tree<?>.Node parent : parents)
+		for (Tree<T>.Node parent : parents)
 		{
 			
-			for (Tree<?>.Node child : parent.getChildren())
+			for (Tree<T>.Node child : parent.getChildren())
 			{
-				if (child.equals(goal))
+				if (heuristic.test(child))
 				{
-					agenda.add(goal);
+					agenda.add(child);
 					return parent;
 				}
 				newParents.add(child);
 			}
 		}
 		
-		Tree<?>.Node found = find(newParents, goal);
+		Tree<T>.Node found = find(newParents);
 		if (found != null)
 		{
 			agenda.add(found);

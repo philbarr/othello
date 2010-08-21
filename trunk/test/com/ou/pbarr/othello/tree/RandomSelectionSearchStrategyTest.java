@@ -10,7 +10,7 @@ import org.junit.Test;
 public class RandomSelectionSearchStrategyTest
 {
 	private Tree<String> tree;
-	private RandomSelectionSearchStrategy strategy;
+	private RandomSelectionSearchStrategy<String> strategy;
 	private Tree<String>.Node one;
 	private Tree<String>.Node two;
 	private Tree<String>.Node three;
@@ -18,7 +18,7 @@ public class RandomSelectionSearchStrategyTest
 	@Before
 	public void setUp()
 	{
-		strategy = new RandomSelectionSearchStrategy();
+		strategy = new RandomSelectionSearchStrategy<String>();
 		tree = new Tree<String>("root");
 		one = tree.getRoot().addChild("one");
 		two = tree.getRoot().addChild("two");
@@ -32,7 +32,7 @@ public class RandomSelectionSearchStrategyTest
 		expected.add(one);
 		expected.add(two);
 		expected.add(three);
-		List<Tree<?>.Node> actual = strategy.search(tree.getRoot(), null);
+		List<Tree<String>.Node> actual = strategy.search(tree.getRoot(), (Tree<String>.Node)null);
 		assertEquals(2, actual.size());
 		assertEquals(tree.getRoot(), actual.get(0));
 		assertTrue(expected.contains(actual.get(1)));
@@ -44,7 +44,7 @@ public class RandomSelectionSearchStrategyTest
 		List<Tree<String>.Node> expected = new ArrayList<Tree<String>.Node>();
 		Tree<String>.Node four = three.addChild("four");
 		expected.add(four);
-		List<Tree<?>.Node> actual = strategy.search(three, null);
+		List<Tree<String>.Node> actual = strategy.search(three, (Tree<String>.Node)null);
 		assertEquals(2, actual.size());
 		assertEquals(four, actual.get(1));
 	}

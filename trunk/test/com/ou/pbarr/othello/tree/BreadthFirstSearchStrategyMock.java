@@ -4,18 +4,15 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ou.pbarr.othello.tree.BreadthFirstSearchStrategy;
-import com.ou.pbarr.othello.tree.Tree;
-
-public class BreadthFirstSearchStrategyMock extends BreadthFirstSearchStrategy
+public class BreadthFirstSearchStrategyMock<T> extends BreadthFirstSearchStrategy<T>
 {
-	private List<List<Tree<?>.Node>> expectedNodes = new ArrayList<List<Tree<?>.Node>>();
-	private List<List<Tree<?>.Node>> actualNodes = new ArrayList<List<Tree<?>.Node>>();
+	private List<List<Tree<T>.Node>> expectedNodes = new ArrayList<List<Tree<T>.Node>>();
+	private List<List<Tree<T>.Node>> actualNodes = new ArrayList<List<Tree<T>.Node>>();
 	
-	protected Tree<?>.Node find(List<Tree<?>.Node> node, Tree<?>.Node goal) 
+	protected Tree<T>.Node find(List<Tree<T>.Node> node) 
 	{
 		actualNodes.add(node);
-		return super.find(node, goal);
+		return super.find(node);
 	}
 
 	public void verifyRecordedNodes()
@@ -23,14 +20,14 @@ public class BreadthFirstSearchStrategyMock extends BreadthFirstSearchStrategy
 		assertEquals(expectedNodes, actualNodes);
 	}
 	
-	public void expect(List<Tree<?>.Node> parents)
+	public void expect(List<Tree<T>.Node> parents)
 	{
 		expectedNodes.add(parents);
 	}
 	
-	public void expect(Tree<?>.Node singleParent)
+	public void expect(Tree<T>.Node singleParent)
 	{
-		List<Tree<?>.Node> list = new ArrayList<Tree<?>.Node>();
+		List<Tree<T>.Node> list = new ArrayList<Tree<T>.Node>();
 		list.add(singleParent);
 		expect(list);
 	}

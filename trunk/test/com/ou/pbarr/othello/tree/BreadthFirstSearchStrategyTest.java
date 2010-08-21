@@ -6,9 +6,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.ou.pbarr.othello.tree.BreadthFirstSearchStrategy;
-import com.ou.pbarr.othello.tree.Tree;
-
 public class BreadthFirstSearchStrategyTest
 {
 	private Tree<String> tree;
@@ -44,7 +41,7 @@ public class BreadthFirstSearchStrategyTest
 	@Test
 	public void testChecksForGoalPerDepth()
 	{
-		BreadthFirstSearchStrategyMock bfsMock = new BreadthFirstSearchStrategyMock();
+		BreadthFirstSearchStrategyMock<String> bfsMock = new BreadthFirstSearchStrategyMock<String>();
 		
 		List<Tree<String>.Node> expected = new ArrayList<Tree<String>.Node>();
 		expected.add(tree.getRoot());
@@ -61,14 +58,14 @@ public class BreadthFirstSearchStrategyTest
 	@Test
 	public void testNodeDoesNotExist()
 	{
-		BreadthFirstSearchStrategy bfs = new BreadthFirstSearchStrategy();
+		BreadthFirstSearchStrategy<String> bfs = new BreadthFirstSearchStrategy<String>();
 		assertEquals(new ArrayList<Tree<String>.Node>(), bfs.search(tree.getRoot(), tree.new Node("notInTree")));
 	}
 	
 	@Test
 	public void testBreadthFirstStrategy()
 	{
-		BreadthFirstSearchStrategyMock bfsMock = new BreadthFirstSearchStrategyMock();
+		BreadthFirstSearchStrategyMock<Integer> bfsMock = new BreadthFirstSearchStrategyMock<Integer>();
 		final TreeMaker maker = new TreeMaker();
 		bfsMock.expect(maker.tree.getRoot());
 		bfsMock.expect(new ArrayList<Tree<Integer>.Node>()
@@ -90,7 +87,7 @@ public class BreadthFirstSearchStrategyTest
 	@Test
 	public void testFirstNodeIsGoal()
 	{
-		BreadthFirstSearchStrategy bfs = new BreadthFirstSearchStrategy();
+		BreadthFirstSearchStrategy<String> bfs = new BreadthFirstSearchStrategy<String>();
 		Tree<String> tree = new Tree<String>("goal");
 		
 		assertEquals(tree.getRoot(), bfs.search(tree.getRoot(), tree.getRoot()));

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Tree<T>
 {
-	SearchStrategy strategy;
+	SearchStrategy<T> strategy;
 	Node root;
 
 	public Tree(T state)
@@ -18,7 +18,7 @@ public class Tree<T>
 		return root;
 	}
 
-	public void setStrategy(SearchStrategy strategy)
+	public void setStrategy(SearchStrategy<T> strategy)
 	{
 		this.strategy = strategy;
 	}
@@ -26,7 +26,7 @@ public class Tree<T>
 	public T findNextState()
 	{
 		// add a heuristic for GOAL
-		return (T) strategy.search(root, null).get(1).getState();
+		return (T) strategy.search(root, (Tree<T>.Node)null).get(1).getState();
 	}
 
 	/**

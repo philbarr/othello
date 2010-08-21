@@ -19,8 +19,8 @@ public class OthelloModel implements Model
 	private Token.Type currentPlayerColour = Token.Type.BLACK; // black starts
 	private Token.Type playerColour = Token.Type.BLACK; // default to player starts as black
 	private OthelloState state = new OthelloState();
-	private SearchStrategy currentStrategy;
-	private List<SearchStrategy> strategies = new ArrayList<SearchStrategy>();
+	private SearchStrategy<OthelloStateExpandable> currentStrategy;
+	private List<SearchStrategy<OthelloStateExpandable>> strategies = new ArrayList<SearchStrategy<OthelloStateExpandable>>();
 	private boolean isFinished = false;
 
 	/**
@@ -33,7 +33,7 @@ public class OthelloModel implements Model
 	public void setStrategyByName(String strategyName) throws SearchStrategyDoesNotExistException
 	{
 		boolean found = false;
-		for (SearchStrategy strategy : strategies)
+		for (SearchStrategy<OthelloStateExpandable> strategy : strategies)
 		{
 			if (strategyName.equals(strategy.getName()))
 			{
@@ -47,12 +47,12 @@ public class OthelloModel implements Model
 		}
 	}
 
-	public SearchStrategy getCurrentStrategy()
+	public SearchStrategy<OthelloStateExpandable> getCurrentStrategy()
 	{
 		return currentStrategy;
 	}
 
-	public void setCurrentStrategy(SearchStrategy currentStrategy)
+	public void setCurrentStrategy(SearchStrategy<OthelloStateExpandable> currentStrategy)
 	{
 		this.currentStrategy = currentStrategy;
 	}
@@ -69,7 +69,7 @@ public class OthelloModel implements Model
 	}
 
 	@Override
-	public void addStrategy(SearchStrategy strategy)
+	public void addStrategy(SearchStrategy<OthelloStateExpandable> strategy)
 	{
 		strategies.add(strategy);
 	}

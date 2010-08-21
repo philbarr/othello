@@ -71,4 +71,29 @@ public class DepthFirstSearchStrategyTest
 		expected.add(tree.getRoot());
 		assertEquals(expected, bfs.search(tree.getRoot(), tree.getRoot()));
 	}
+	
+	@Test
+	public void testSearchByHeuristic()
+	{
+		List<Tree<String>.Node> expected = new ArrayList<Tree<String>.Node>();
+		expected.add(tree.getRoot());
+		expected.add(one);
+		expected.add(two);
+		expected.add(three);
+		expected.add(threeB);
+		
+		Heuristic<String> heuristic = new Heuristic<String>()
+		{
+
+			@Override
+			public boolean test(Tree<String>.Node node)
+			{
+				return node.getState().endsWith("B");
+			}
+			
+		};
+		DepthFirstSearchStrategy<String> dfs = new DepthFirstSearchStrategy<String>();
+		List<Tree<String>.Node> actual = dfs.search(tree.getRoot(), heuristic);
+		assertEquals(expected, actual);
+	}
 }

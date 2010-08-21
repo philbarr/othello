@@ -5,6 +5,7 @@ import com.ou.pbarr.othello.controller.SimpleController;
 import com.ou.pbarr.othello.gui.OthelloMainFrame;
 import com.ou.pbarr.othello.gui.View;
 import com.ou.pbarr.othello.model.OthelloModel;
+import com.ou.pbarr.othello.model.OthelloStateExpandable;
 import com.ou.pbarr.othello.tree.RandomSelectionSearchStrategy;
 
 public class Main
@@ -13,7 +14,7 @@ public class Main
 	{
 		// set up the model by adding our strategies
 		OthelloModel model = new OthelloModel();
-		model.addStrategy(new RandomSelectionSearchStrategy());
+		model.addStrategy(new RandomSelectionSearchStrategy<OthelloStateExpandable>());
 		// model.addStrategy(new DepthFirstSearchStrategy());
 		
 		// set up the controller and tell it what model to use so that it

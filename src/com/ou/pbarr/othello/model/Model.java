@@ -10,8 +10,6 @@ public interface Model
 
 	String[] getStrategyNames();
 	
-	void addStrategy(SearchStrategy strategy);
-
 	Token[] getTokens();
 
 	Token[] getPossibleNextMoves();
@@ -29,4 +27,6 @@ public interface Model
 	boolean gameIsFinished();
 
 	int getTokenCountFor(Type white);
+
+	void addStrategy(SearchStrategy<OthelloStateExpandable> strategy);
 }

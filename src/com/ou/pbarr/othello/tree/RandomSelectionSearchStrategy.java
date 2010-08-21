@@ -10,7 +10,7 @@ import java.util.List;
  * the outcome.
  * @author phil
  */
-public class RandomSelectionSearchStrategy implements SearchStrategy
+public class RandomSelectionSearchStrategy<T> extends SearchStrategy<T>
 {
 
 	@Override
@@ -23,11 +23,11 @@ public class RandomSelectionSearchStrategy implements SearchStrategy
 	 * A list with two nodes is returned, the start node and a random child node.
 	 */
 	@Override
-	public List<Tree<?>.Node> search(Tree<?>.Node start, Tree<?>.Node goal)
+	public List<Tree<T>.Node> search(Tree<T>.Node start, Heuristic<T> heuristic)
 	{
-		List<Tree<?>.Node> agenda = new ArrayList<Tree<?>.Node>();
+		List<Tree<T>.Node> agenda = new ArrayList<Tree<T>.Node>();
 		agenda.add(start);
-		List<Tree<?>.Node> children = start.getChildren();
+		List<Tree<T>.Node> children = start.getChildren();
 		Collections.shuffle(children);
 		agenda.add(children.get(0));
 		return agenda;

@@ -6,9 +6,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.ou.pbarr.othello.tree.DepthFirstSearchStrategy;
-import com.ou.pbarr.othello.tree.Tree;
-
 public class DepthFirstSearchStrategyTest
 {
 	private Tree<String> tree;
@@ -44,7 +41,7 @@ public class DepthFirstSearchStrategyTest
 	@Test
 	public void testBacktracksToFindFindUntestedChildren()
 	{
-		DepthFirstSearchStrategyMock dfsMock = new DepthFirstSearchStrategyMock();
+		DepthFirstSearchStrategyMock<String> dfsMock = new DepthFirstSearchStrategyMock<String>();
 		
 		List<Tree<String>.Node> expected = new ArrayList<Tree<String>.Node>();
 		expected.add(tree.getRoot());
@@ -61,14 +58,14 @@ public class DepthFirstSearchStrategyTest
 	@Test
 	public void testNodeDoesNotExist()
 	{
-		DepthFirstSearchStrategy dfs = new DepthFirstSearchStrategy();
+		DepthFirstSearchStrategy<String> dfs = new DepthFirstSearchStrategy<String>();
 		assertEquals(new ArrayList<Tree<String>.Node>(), dfs.search(tree.getRoot(), tree.new Node("notInTree")));
 	}
 	
 	@Test
 	public void testFirstNodeIsGoal()
 	{
-		DepthFirstSearchStrategy bfs = new DepthFirstSearchStrategy();
+		DepthFirstSearchStrategy<String> bfs = new DepthFirstSearchStrategy<String>();
 		Tree<String> tree = new Tree<String>("goal");
 		List<Tree<String>.Node> expected = new ArrayList<Tree<String>.Node>();
 		expected.add(tree.getRoot());

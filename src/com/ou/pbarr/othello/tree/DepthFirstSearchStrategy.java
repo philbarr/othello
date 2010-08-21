@@ -10,10 +10,11 @@ import java.util.List;
  * finite trees.
  * @author phil
  */
-public class DepthFirstSearchStrategy implements SearchStrategy
+public class DepthFirstSearchStrategy<T> extends SearchStrategy<T>
 {
 	// the agenda stores the current path being searched
-	private List<Tree<?>.Node> agenda = new ArrayList<Tree<?>.Node>();
+	private List<Tree<T>.Node> agenda = new ArrayList<Tree<T>.Node>();
+	private Heuristic<T> heuristic;
 	
 	/**
 	 * Searches the tree from start to goal using the depth first technique.
@@ -22,17 +23,18 @@ public class DepthFirstSearchStrategy implements SearchStrategy
 	 * @param goal the goal node
 	 * @return the path to the goal, or an empty List if one was not found.
 	 */
-	public List<Tree<?>.Node> search(Tree<?>.Node start, Tree<?>.Node goal)
+	public List<Tree<T>.Node> search(Tree<T>.Node start, Heuristic<T> heuristic)
 	{
-		find(start, goal);
+		this.heuristic = heuristic;
+		find(start);
 		Collections.reverse(agenda);
 		return agenda;
 	}
 	
-	protected Tree<?>.Node find(Tree<?>.Node node, Tree<?>.Node goal)
+	protected Tree<T>.Node find(Tree<T>.Node node)
 	{
 		// if we are at the goal, add it to the agenda and return it
-		if (node.equals(goal))
+		if (heuristic.test(node))
 		{
 			agenda.add(node);
 			return node;
@@ -40,9 +42,9 @@ public class DepthFirstSearchStrategy implements SearchStrategy
 		
 		// for each child, test it to see if it or it's children are the goal
 		// if they are, add to the agenda and return, otherwise, return null 
-		for (Tree<?>.Node child : node.getChildren())
+		for (Tree<T>.Node child : node.getChildren())
 		{
-			Tree<?>.Node found = find(child, goal);
+			Tree<T>.Node found = find(child);
 			if (found != null)
 			{
 				agenda.add(node);

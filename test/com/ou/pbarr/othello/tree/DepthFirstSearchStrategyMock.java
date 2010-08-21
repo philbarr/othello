@@ -3,20 +3,17 @@ package com.ou.pbarr.othello.tree;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ou.pbarr.othello.tree.DepthFirstSearchStrategy;
-import com.ou.pbarr.othello.tree.Tree;
-
-public class DepthFirstSearchStrategyMock extends DepthFirstSearchStrategy
+public class DepthFirstSearchStrategyMock<T> extends DepthFirstSearchStrategy<T>
 {
-	private List<Tree<?>.Node> recordedNodes = new ArrayList<Tree<?>.Node>();
+	private List<Tree<T>.Node> recordedNodes = new ArrayList<Tree<T>.Node>();
 	
-	protected Tree<?>.Node find(Tree<?>.Node node, Tree<?>.Node goal) 
+	protected Tree<T>.Node find(Tree<T>.Node node) 
 	{
 		recordedNodes.add(node);
-		return super.find(node, goal);
+		return super.find(node);
 	}
 
-	public List<Tree<?>.Node> verifyRecordedNodes()
+	public List<Tree<T>.Node> verifyRecordedNodes()
 	{
 		return recordedNodes;
 	}

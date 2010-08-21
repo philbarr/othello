@@ -26,7 +26,7 @@ public class OthelloModelTest
 															new Token(Type.WHITE, 5, 5),
 				                    };
 		OthelloModel model = new OthelloModel();
-		model.addStrategy(new RandomSelectionSearchStrategy());
+		model.addStrategy(new RandomSelectionSearchStrategy<OthelloStateExpandable>());
 		model.setStrategyByName(model.getStrategyNames()[0]);
 		model.newGame(Type.WHITE);
 		assertEquals(Type.BLACK, model.getCurrentPlayer());

@@ -25,7 +25,7 @@ public class TreeTest
 	@Test
 	public void testDepthFirstStrategy()
 	{
-		DepthFirstSearchStrategy dfs = new DepthFirstSearchStrategy();
+		DepthFirstSearchStrategy<Integer> dfs = new DepthFirstSearchStrategy<Integer>();
 		
 		List<Tree<Integer>.Node> expected = new ArrayList<Tree<Integer>.Node>();
 		expected.add(maker.tree.getRoot());
@@ -38,7 +38,7 @@ public class TreeTest
 	@Test @Ignore
 	public void testBreadthFirstStrategy()
 	{
-		BreadthFirstSearchStrategy bfs = new BreadthFirstSearchStrategy();
+		BreadthFirstSearchStrategy<Integer> bfs = new BreadthFirstSearchStrategy<Integer>();
 		List<Tree<Integer>.Node> expected = new ArrayList<Tree<Integer>.Node>();
 		expected.add(maker.tree.getRoot());
 		expected.add(maker.n3);
@@ -66,7 +66,7 @@ public class TreeTest
 		expected.add(new Token(Type.BLACK, 4, 6));
 		expected.add(new Token(Type.BLACK, 6, 4));
 		Tree<OthelloStateExpandable> tree = new Tree<OthelloStateExpandable>(state);
-		tree.setStrategy(new RandomSelectionSearchStrategy());
+		tree.setStrategy(new RandomSelectionSearchStrategy<OthelloStateExpandable>());
 		OthelloStateExpandable newState = tree.findNextState();
 		assertTrue(expected.contains(newState.getLastCreatedToken()));
 	}

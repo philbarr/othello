@@ -14,6 +14,12 @@ public class OthelloStateExpandable extends OthelloState implements Expandable
 	
 	public OthelloStateExpandable(Type typeToExpandFor)
 	{
+		this(typeToExpandFor, DEFAULT_OTHELLO_BOARD_SIZE);
+	}
+	
+	public OthelloStateExpandable(Type typeToExpandFor, int boardSize)
+	{
+		super();
 		this.typeToExpandFor = typeToExpandFor;
 	}
 	
@@ -27,7 +33,7 @@ public class OthelloStateExpandable extends OthelloState implements Expandable
 	}
 	
 	@Override
-	public void addToken(Token token) throws TokenAlreadyExistsInSquareException
+	public void addToken(Token token) throws TokenAlreadyExistsInSquareException, OutOfOthelloBoardBoundsException
 	{
 		super.addToken(token);
 		lastCreatedToken = token;
@@ -54,9 +60,9 @@ public class OthelloStateExpandable extends OthelloState implements Expandable
 		}
 		return states.toArray(new OthelloStateExpandable[states.size()]);
 	}
-	public void setTokens(Token[] tokens) throws TokenAlreadyExistsInSquareException
+	public void setTokens(Token[] tokens) throws TokenAlreadyExistsInSquareException, OutOfOthelloBoardBoundsException
 	{
-		board = new Token[OTHELLO_BOARD_SIZE][OTHELLO_BOARD_SIZE];
+		board = new Token[getBoardSize()][getBoardSize()];
 		for (Token token : tokens)
 		{
 			addToken(token);

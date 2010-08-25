@@ -13,13 +13,8 @@ public class Token
 	private int x;
 	private int y;
 	
-	public Token(Type type, int x, int y) throws OutOfOthelloBoardBoundsException
+	public Token(Type type, int x, int y)
 	{
-		if ((x < 1 || x > OthelloState.OTHELLO_BOARD_SIZE) ||
-				(y < 1 || y > OthelloState.OTHELLO_BOARD_SIZE))
-		{
-			throw new OutOfOthelloBoardBoundsException("Cannot assign a board token to x: " + x + "y: " + y);
-		}
 		this.x = x;
 		this.y = y;
 		this.type = type;

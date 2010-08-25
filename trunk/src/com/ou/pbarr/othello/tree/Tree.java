@@ -173,4 +173,10 @@ public class Tree<T>
 		}
 
 	}
+
+	public void setHeuristic(Heuristic<T> heuristic)
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

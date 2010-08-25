@@ -19,7 +19,7 @@ public class OthelloStateExpandable extends OthelloState implements Expandable
 	
 	public OthelloStateExpandable(Type typeToExpandFor, int boardSize)
 	{
-		super();
+		super(boardSize);
 		this.typeToExpandFor = typeToExpandFor;
 	}
 	
@@ -46,7 +46,7 @@ public class OthelloStateExpandable extends OthelloState implements Expandable
 		for (Token token : getPossibleNextPositions(typeToExpandFor).toArray(new Token[0]))
 		{
 			Type otherPlayerToExpandFor = typeToExpandFor == Type.BLACK ? Type.WHITE : Type.BLACK;
-			OthelloStateExpandable newState = new OthelloStateExpandable(otherPlayerToExpandFor);
+			OthelloStateExpandable newState = new OthelloStateExpandable(otherPlayerToExpandFor, getBoardSize());
 			try
 			{
 				newState.setTokens(this.getTokens());

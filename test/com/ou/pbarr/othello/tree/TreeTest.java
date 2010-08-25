@@ -70,4 +70,31 @@ public class TreeTest
 		OthelloStateExpandable newState = tree.findNextState();
 		assertTrue(expected.contains(newState.getLastCreatedToken()));
 	}
+	
+	@Test
+	public void testHeuristic() throws TokenAlreadyExistsInSquareException, OutOfOthelloBoardBoundsException
+	{
+		OthelloStateExpandable state = new OthelloStateExpandable(Type.BLACK, 3);
+		state.addToken(new Token(Type.BLACK, 1, 1));
+		state.addToken(new Token(Type.BLACK, 3, 1));
+		state.addToken(new Token(Type.WHITE, 2, 1));
+		state.addToken(new Token(Type.WHITE, 2, 2));
+		state.addToken(new Token(Type.WHITE, 2, 3));
+
+		Tree<OthelloStateExpandable> tree = new Tree<OthelloStateExpandable>(state);
+		tree.setStrategy(new DepthFirstSearchStrategy<OthelloStateExpandable>());
+		tree.setHeuristic(new Heuristic<OthelloStateExpandable>(){
+
+			@Override
+			public boolean test(Tree<OthelloStateExpandable>.Node node)
+			{
+				OthelloStateExpandable state = node.getState();
+				return state.getPossibleNextPositions(Type.BLACK).isEmpty() &&
+				 state.getPossibleNextPositions(Type.WHITE).isEmpty() &&
+				 state.getTokenCountFor(Type.BLACK) > state.getTokenCountFor(Type.WHITE);
+			}});
+		
+		OthelloStateExpandable newState = tree.findNextState();
+		assertTrue(new Token(Type.BLACK, 3, 3).equals(newState.getLastCreatedToken()));
+	}
 }

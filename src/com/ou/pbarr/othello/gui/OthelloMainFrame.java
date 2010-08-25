@@ -95,7 +95,7 @@ public class OthelloMainFrame extends JFrame implements View, ActionListener,
 
 	private JPanel getBoard()
 	{
-		board = new OthelloBoardPanel();
+		board = new OthelloBoardPanel(model.getBoardSquareCount());
 		board.addOthelloBoardPanelListener(this);
 		return board;
 	}

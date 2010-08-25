@@ -29,4 +29,6 @@ public interface Model
 	int getTokenCountFor(Type white);
 
 	void addStrategy(SearchStrategy<OthelloStateExpandable> strategy);
+
+	int getBoardSquareCount();
 }

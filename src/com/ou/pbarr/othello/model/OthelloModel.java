@@ -165,14 +165,12 @@ public class OthelloModel implements Model
 	@Override
 	public int getTokenCountFor(Type type)
 	{
-		int count = 0;
-		for (Token token : state.getTokens())
-		{
-			if (token.getType() == type)
-			{
-				count++;
-			}
-		}
-		return count;
+		return state.getTokenCountFor(type);
+	}
+
+	@Override
+	public int getBoardSquareCount()
+	{
+		return state.getBoardSize();
 	}
 }

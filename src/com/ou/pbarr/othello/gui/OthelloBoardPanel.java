@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import com.ou.pbarr.othello.model.OthelloState;
 
 public class OthelloBoardPanel extends JPanel
 {
@@ -30,12 +29,13 @@ public class OthelloBoardPanel extends JPanel
 	private boolean drawGhostTokens = false;
 
 	private int boardSize = 0;
-
 	private int squareSize;
+	private int boardSquareCount;
 
-	public OthelloBoardPanel()
+	public OthelloBoardPanel(int boardSquareCount)
 	{
 		this.addMouseListener(new OthelloBoardPanelMouseAdapter());
+		this.boardSquareCount = boardSquareCount;
 	}
 	
 	public void addOthelloBoardPanelListener(OthelloBoardPanelListener listener)
@@ -49,8 +49,8 @@ public class OthelloBoardPanel extends JPanel
 		super.paint(g);
 		boardSize = this.getWidth() > this.getHeight() ? this.getHeight()
 				: this.getWidth();
-		squareSize = boardSize / OthelloState.OTHELLO_BOARD_SIZE;
-		boardSize = squareSize * OthelloState.OTHELLO_BOARD_SIZE; // allow for the rounding error we just introduced.
+		squareSize = boardSize / boardSquareCount;
+		boardSize = squareSize * boardSquareCount; // allow for the rounding error we just introduced.
 		drawBoard(g);
 		drawTokens(g);
 	}
@@ -110,9 +110,9 @@ public class OthelloBoardPanel extends JPanel
 		// fill in the squares, each odd row gets moved along by a squareSize
 		// to create a chequered board pattern.
 		g.setColor(this.getDarkSquareColour());
-		for (int colSquares = 0; colSquares < OthelloState.OTHELLO_BOARD_SIZE; colSquares += 2)
+		for (int colSquares = 0; colSquares < boardSquareCount; colSquares += 2)
 		{
-			for (int rowSquares = 0; rowSquares < OthelloState.OTHELLO_BOARD_SIZE; rowSquares++)
+			for (int rowSquares = 0; rowSquares < boardSquareCount; rowSquares++)
 			{
 				int xPos = rowSquares % 2 == 0 ? colSquares * squareSize
 						: (colSquares * squareSize) + squareSize;
@@ -226,7 +226,7 @@ public class OthelloBoardPanel extends JPanel
 		tokens.add(new GameToken(GameToken.Colour.DARK, 4, 3));
 		tokens.add(new GameToken(GameToken.Colour.LIGHT, 4, 4));
 		tokens.add(new GameToken(GameToken.Colour.LIGHT, 4, 5));
-		OthelloBoardPanel othelloBoardPanel = new OthelloBoardPanel();
+		OthelloBoardPanel othelloBoardPanel = new OthelloBoardPanel(8);
 		othelloBoardPanel.setTokens(tokens);
 
 		JFrame frame = new JFrame("Othello");

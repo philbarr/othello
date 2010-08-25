@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Tree<T>
 {
+	private Heuristic<T> heuristic;
 	SearchStrategy<T> strategy;
 	Node root;
 
@@ -25,8 +26,7 @@ public class Tree<T>
 
 	public T findNextState()
 	{
-		// add a heuristic for GOAL
-		return (T) strategy.search(root, (Tree<T>.Node)null).get(1).getState();
+		return (T) strategy.search(root, heuristic).get(1).getState();
 	}
 
 	/**
@@ -176,7 +176,6 @@ public class Tree<T>
 
 	public void setHeuristic(Heuristic<T> heuristic)
 	{
-		// TODO Auto-generated method stub
-		
+		this.heuristic = heuristic;
 	}
 }

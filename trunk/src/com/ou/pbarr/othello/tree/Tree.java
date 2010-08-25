@@ -26,7 +26,13 @@ public class Tree<T>
 
 	public T findNextState()
 	{
-		return (T) strategy.search(root, heuristic).get(1).getState();
+		
+		List<Node> agenda = strategy.search(root, heuristic);
+		if (agenda == null || agenda.isEmpty())
+		{
+			return null;
+		}
+		return (T) agenda.get(1).getState();
 	}
 
 	/**

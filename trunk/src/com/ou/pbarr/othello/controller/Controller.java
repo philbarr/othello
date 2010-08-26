@@ -27,4 +27,6 @@ public interface Controller
 
 	void selectSquare(int xSquare, int ySquare);
 
+	void play();
+
 }

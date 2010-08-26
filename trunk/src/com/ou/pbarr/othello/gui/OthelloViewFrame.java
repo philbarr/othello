@@ -190,6 +190,7 @@ public class OthelloViewFrame extends JFrame implements View, ActionListener,
 		if (!boardFrozen)
 		{
 			controller.selectSquare(xSquare, ySquare);
+			controller.play();
 		}
 	}
 

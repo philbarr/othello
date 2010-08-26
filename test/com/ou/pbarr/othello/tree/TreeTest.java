@@ -98,8 +98,6 @@ public class TreeTest
 			}});
 		
 		OthelloStateExpandable newState = tree.findNextState();
-		System.out.println(state);
-		System.out.println(newState);
 		assertEquals(new Token(Type.BLACK, 1, 1), newState.getLastCreatedToken());
 	}
 }

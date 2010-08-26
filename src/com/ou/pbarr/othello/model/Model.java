@@ -31,4 +31,8 @@ public interface Model
 	void addStrategy(SearchStrategy<OthelloStateExpandable> strategy);
 
 	int getBoardSquareCount();
+
+	Token getCurrentlySelectedSquare();
+
+	void setCurrentlySelectedSquare(int xSquare, int ySquare);
 }

@@ -130,11 +130,18 @@ public class SimpleController implements Controller
 	@Override
 	public void selectSquare(int xSquare, int ySquare)
 	{
+		model.setCurrentlySelectedSquare(xSquare, ySquare);
+	}
+	
+	public void play()
+	{
+
 		try
 		{
 				if (model.getCurrentPlayer() == model.getPlayerColour())
 				{
-					model.makeMove(xSquare, ySquare);
+					model.makeMove(model.getCurrentlySelectedSquare().getX(), 
+							model.getCurrentlySelectedSquare().getY());
 				}
 				else
 				{

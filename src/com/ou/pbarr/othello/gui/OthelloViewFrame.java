@@ -23,10 +23,10 @@ import com.ou.pbarr.othello.gui.GameToken.Colour;
 import com.ou.pbarr.othello.model.Model;
 import com.ou.pbarr.othello.model.Token;
 
-public class OthelloMainFrame extends JFrame implements View, ActionListener,
+public class OthelloViewFrame extends JFrame implements View, ActionListener,
 		OthelloBoardPanelListener
 {
-	private final static Logger LOG = Logger.getLogger(OthelloMainFrame.class
+	private final static Logger LOG = Logger.getLogger(OthelloViewFrame.class
 			.getName());
 	private Model model;
 	private Controller controller;
@@ -34,7 +34,7 @@ public class OthelloMainFrame extends JFrame implements View, ActionListener,
 	private JLabel infoLabel;
 	private boolean boardFrozen = false;
 
-	public OthelloMainFrame(Controller controller, Model model)
+	public OthelloViewFrame(Controller controller, Model model)
 	{
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.controller = controller;
@@ -45,7 +45,7 @@ public class OthelloMainFrame extends JFrame implements View, ActionListener,
 			@Override
 			public void windowClosing(WindowEvent e)
 			{
-				OthelloMainFrame.this.controller.quit();
+				OthelloViewFrame.this.controller.quit();
 			}
 		});
 

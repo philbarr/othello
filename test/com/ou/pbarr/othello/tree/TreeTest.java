@@ -71,16 +71,17 @@ public class TreeTest
 		assertTrue(expected.contains(newState.getLastCreatedToken()));
 	}
 	
+	/*
+	 * The AI is playing as BLACK, and is faced with 
+	 */
 	@Test
 	public void testHeuristic() throws TokenAlreadyExistsInSquareException, OutOfOthelloBoardBoundsException
 	{
-		OthelloStateExpandable state = new OthelloStateExpandable(Type.BLACK, 3);
-		state.addToken(new Token(Type.BLACK, 1, 1));
-		state.addToken(new Token(Type.BLACK, 3, 1));
+		OthelloStateExpandable state = new OthelloStateExpandable(Type.BLACK, 8);
 		state.addToken(new Token(Type.WHITE, 2, 1));
-		state.addToken(new Token(Type.WHITE, 2, 2));
-		state.addToken(new Token(Type.WHITE, 2, 3));
-
+		state.addToken(new Token(Type.BLACK, 3, 1));
+		state.addToken(new Token(Type.WHITE, 4, 1));
+		
 		Tree<OthelloStateExpandable> tree = new Tree<OthelloStateExpandable>(state);
 		tree.setStrategy(new DepthFirstSearchStrategy<OthelloStateExpandable>());
 		tree.setHeuristic(new Heuristic<OthelloStateExpandable>(){
@@ -89,12 +90,16 @@ public class TreeTest
 			public boolean test(Tree<OthelloStateExpandable>.Node node)
 			{
 				OthelloStateExpandable state = node.getState();
-				return state.getPossibleNextPositions(Type.BLACK).isEmpty() &&
-				 state.getPossibleNextPositions(Type.WHITE).isEmpty() &&
-				 state.getTokenCountFor(Type.BLACK) > state.getTokenCountFor(Type.WHITE);
+				boolean noMovesForBlack = state.getPossibleNextPositions(Type.BLACK).isEmpty();
+				boolean noMovesForWhite = state.getPossibleNextPositions(Type.WHITE).isEmpty();
+				boolean blackWins = state.getTokenCountFor(Type.BLACK) > state.getTokenCountFor(Type.WHITE);
+				
+				return noMovesForBlack &&	noMovesForWhite && blackWins;
 			}});
 		
 		OthelloStateExpandable newState = tree.findNextState();
-		assertTrue(new Token(Type.BLACK, 3, 3).equals(newState.getLastCreatedToken()));
+		System.out.println(state);
+		System.out.println(newState);
+		assertEquals(new Token(Type.BLACK, 1, 1), newState.getLastCreatedToken());
 	}
 }

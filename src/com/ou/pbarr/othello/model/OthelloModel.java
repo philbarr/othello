@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import com.ou.pbarr.othello.model.Token.Type;
+import com.ou.pbarr.othello.tree.Heuristic;
 import com.ou.pbarr.othello.tree.SearchStrategy;
 import com.ou.pbarr.othello.tree.Tree;
 
@@ -139,6 +140,19 @@ public class OthelloModel implements Model
 		currentState.setTokens(this.getTokens());
 		Tree<OthelloStateExpandable> tree = new Tree<OthelloStateExpandable>(currentState);
 		tree.setStrategy(getCurrentStrategy());
+		//TODO pluggable heuristic
+		tree.setHeuristic(new Heuristic<OthelloStateExpandable>(){
+
+			@Override
+			public boolean test(Tree<OthelloStateExpandable>.Node node)
+			{
+				OthelloStateExpandable state = node.getState();
+				boolean noMovesForBlack = state.getPossibleNextPositions(Type.BLACK).isEmpty();
+				boolean noMovesForWhite = state.getPossibleNextPositions(Type.WHITE).isEmpty();
+				boolean blackWins = state.getTokenCountFor(Type.BLACK) > state.getTokenCountFor(Type.WHITE);
+				
+				return noMovesForBlack &&	noMovesForWhite && blackWins;
+			}});
 		Token token = tree.findNextState().getLastCreatedToken();
 		LOG.info(getCurrentStrategy().getName() + " played: " + token);
 		state.playToken(token);

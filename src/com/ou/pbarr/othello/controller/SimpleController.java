@@ -8,18 +8,17 @@ import com.ou.pbarr.othello.model.OutOfOthelloBoardBoundsException;
 import com.ou.pbarr.othello.model.SearchStrategyDoesNotExistException;
 import com.ou.pbarr.othello.model.TokenAlreadyExistsInSquareException;
 import com.ou.pbarr.othello.model.Token.Type;
- 
+
 public class SimpleController implements Controller
 {
-	private static final Logger LOG = Logger.getLogger(SimpleController.class
-			.getName());
+	private static final Logger LOG = Logger.getLogger(SimpleController.class.getName());
 	private View view;
 	private Model model;
 	private GameState gameState = GameState.BEFORE_GAME;
-	private enum GameState{
-		BEFORE_GAME,
-		PLAYING,
-		FINISHED, 
+
+	private enum GameState
+	{
+		BEFORE_GAME, PLAYING, FINISHED,
 	}
 
 	public void quit()
@@ -132,29 +131,27 @@ public class SimpleController implements Controller
 	{
 		model.setCurrentlySelectedSquare(xSquare, ySquare);
 	}
-	
+
+	@Override
 	public void play()
 	{
 
 		try
 		{
-				if (model.getCurrentPlayer() == model.getPlayerColour())
-				{
-					model.makeMove(model.getCurrentlySelectedSquare().getX(), 
-							model.getCurrentlySelectedSquare().getY());
-				}
-				else
-				{
-					model.generateMove();
-				}
-			
+			if (model.getCurrentPlayer() == model.getPlayerColour())
+			{
+				model.makeMove(model.getCurrentlySelectedSquare().getX(), model.getCurrentlySelectedSquare().getY());
+			}
+			else
+			{
+				model.generateMove();
+			}
+
 			if (!gameIsFinished())
 			{
-				view.setInfoMessage(model.getCurrentPlayer()
-						+ " to play. White tokens: " + model.getTokenCountFor(Type.WHITE)
-						+ " - Black tokens: " + model.getTokenCountFor(Type.BLACK)
-						+ ". Player is " + model.getPlayerColour());
-					view.updateBoard();
+				view.setInfoMessage(model.getCurrentPlayer() + " to play. White tokens: " + model.getTokenCountFor(Type.WHITE)
+						+ " - Black tokens: " + model.getTokenCountFor(Type.BLACK) + ". Player is " + model.getPlayerColour());
+				view.updateBoard();
 			}
 		}
 		catch (OutOfOthelloBoardBoundsException e)

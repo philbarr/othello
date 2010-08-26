@@ -43,10 +43,18 @@ public class OthelloStateExpandable extends OthelloState implements Expandable
 	public OthelloStateExpandable[] expand()
 	{
 		List<OthelloStateExpandable> states = new ArrayList<OthelloStateExpandable>();
-		for (Token token : getPossibleNextPositions(typeToExpandFor).toArray(new Token[0]))
+		
+		List<Token> positions = getPossibleNextPositions(typeToExpandFor);
+		if (positions == null || positions.isEmpty())
 		{
-			Type otherPlayerToExpandFor = typeToExpandFor == Type.BLACK ? Type.WHITE : Type.BLACK;
-			OthelloStateExpandable newState = new OthelloStateExpandable(otherPlayerToExpandFor, getBoardSize());
+			typeToExpandFor = typeToExpandFor == Type.BLACK ? Type.WHITE : Type.BLACK;
+		}
+		positions = getPossibleNextPositions(typeToExpandFor);
+		Type newPlayerToExpandFor = typeToExpandFor == Type.BLACK ? Type.WHITE : Type.BLACK;
+		
+		for (Token token : positions.toArray(new Token[0]))
+		{
+			OthelloStateExpandable newState = new OthelloStateExpandable(newPlayerToExpandFor, getBoardSize());
 			try
 			{
 				newState.setTokens(this.getTokens());
@@ -56,6 +64,7 @@ public class OthelloStateExpandable extends OthelloState implements Expandable
 			{
 				LOG.severe("Unexpected exception expanding state: " + e.getMessage());
 			}
+			LOG.info("expanded state: " + newState);
 			states.add(newState);
 		}
 		return states.toArray(new OthelloStateExpandable[states.size()]);

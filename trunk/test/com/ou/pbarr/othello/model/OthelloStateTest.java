@@ -183,4 +183,38 @@ public class OthelloStateTest
 		assertEquals(0, tokens.size());
 	}
 	
+	@Test
+	public void testGetNextLegalPlayer() throws TokenAlreadyExistsInSquareException, OutOfOthelloBoardBoundsException
+	{
+		state.addToken(new Token(Type.BLACK, 1, 1));
+		state.addToken(new Token(Type.WHITE, 1, 2));
+		
+		// assume WHITE has just played, should be BLACK to play next, and their is an available space to play
+		assertEquals(Type.BLACK, state.getNextLegalPlayer(Type.WHITE));
+		state.addToken(new Token(Type.BLACK, 1, 3));
+		
+		// assume BLACK has just played, should be WHITE to play next, and their is an available space to play
+		assertEquals(Type.WHITE, state.getNextLegalPlayer(Type.BLACK));
+		
+		// assume WHITE has just played, should be BLACK to play next, but there's no available space to play, so it goes back to WHITE
+		assertEquals(Type.WHITE, state.getNextLegalPlayer(Type.WHITE));
+	}
+	
+	@Test
+	public void testToString() throws TokenAlreadyExistsInSquareException, OutOfOthelloBoardBoundsException
+	{
+		String expected = "\n| X | O |   |\n|   | O | X |\n| X |   | O |\n";
+		OthelloState state = new OthelloState(3);
+		state.addToken(new Token(Type.BLACK, 1, 1));
+		state.addToken(new Token(Type.WHITE, 1, 2));
+		
+		state.addToken(new Token(Type.WHITE, 2, 2));
+		state.addToken(new Token(Type.BLACK, 2, 3));
+		
+		state.addToken(new Token(Type.BLACK, 3, 1));
+		state.addToken(new Token(Type.WHITE, 3, 3));
+		
+		assertEquals(expected, state.toString());
+	}
+	
 }

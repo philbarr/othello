@@ -129,13 +129,7 @@ public class OthelloModel implements Model
 
 	private void flipCurrentPlayer()
 	{
-		currentPlayerColour = currentPlayerColour == Type.BLACK ? Type.WHITE : Type.BLACK;
-		
-		// if there are no possible positions for the new player, flip back
-		if (state.getPossibleNextPositions(currentPlayerColour).isEmpty())
-		{
-			currentPlayerColour = currentPlayerColour == Type.BLACK ? Type.WHITE : Type.BLACK;
-		}
+		currentPlayerColour = state.getNextLegalPlayer(currentPlayerColour);
 	}
 
 	@Override

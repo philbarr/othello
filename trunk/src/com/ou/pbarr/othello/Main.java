@@ -2,7 +2,7 @@ package com.ou.pbarr.othello;
 
 import com.ou.pbarr.othello.controller.Controller;
 import com.ou.pbarr.othello.controller.SimpleController;
-import com.ou.pbarr.othello.gui.OthelloMainFrame;
+import com.ou.pbarr.othello.gui.OthelloViewFrame;
 import com.ou.pbarr.othello.gui.View;
 import com.ou.pbarr.othello.model.OthelloModel;
 import com.ou.pbarr.othello.model.OthelloStateExpandable;
@@ -26,7 +26,7 @@ public class Main
 		// set up the view - telling it about the controller to send actions to,
 		// and the model to get data from. And tell the controller about the view
 		// so that it can act upon it.
-		View othelloFrame = new OthelloMainFrame(controller, model);
+		View othelloFrame = new OthelloViewFrame(controller, model);
 		controller.setView(othelloFrame);
 		
 		// tell the controller to kick things off

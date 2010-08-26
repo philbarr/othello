@@ -23,6 +23,7 @@ public class OthelloModel implements Model
 	private SearchStrategy<OthelloStateExpandable> currentStrategy;
 	private List<SearchStrategy<OthelloStateExpandable>> strategies = new ArrayList<SearchStrategy<OthelloStateExpandable>>();
 	private boolean isFinished = false;
+	private Token currentlySelectedSquare = null;
 
 	/**
 	 * Sets the strategy by name. If the name does not exist in the current list
@@ -180,5 +181,17 @@ public class OthelloModel implements Model
 	public int getBoardSquareCount()
 	{
 		return state.getBoardSize();
+	}
+
+	@Override
+	public Token getCurrentlySelectedSquare()
+	{
+		return currentlySelectedSquare;
+	}
+
+	@Override
+	public void setCurrentlySelectedSquare(int xSquare, int ySquare)
+	{
+		this.currentlySelectedSquare  = new Token(null, xSquare, ySquare);
 	}
 }

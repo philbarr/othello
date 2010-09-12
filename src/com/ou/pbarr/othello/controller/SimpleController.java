@@ -77,7 +77,8 @@ public class SimpleController implements Controller
 		model.newGame(chooseHumanPlayerColour());
 		try
 		{
-			model.setStrategyByName(model.getStrategyNames()[0]);
+			Type otherColour = Type.BLACK == model.getPlayerColour() ? Type.WHITE : Type.BLACK;
+			model.setStrategyByName(otherColour, model.getStrategyNames()[0]);
 		}
 		catch (SearchStrategyDoesNotExistException e)
 		{
@@ -117,7 +118,7 @@ public class SimpleController implements Controller
 	{
 		try
 		{
-			model.setStrategyByName(text);
+			model.setStrategyByName(model.getPlayerColour(), text);
 			LOG.info("set strategy on model:" + text);
 		}
 		catch (SearchStrategyDoesNotExistException e)

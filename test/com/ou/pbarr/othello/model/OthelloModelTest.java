@@ -12,7 +12,7 @@ public class OthelloModelTest
 	public void testSetStrategyByName() throws SearchStrategyDoesNotExistException
 	{
 		Model model = new OthelloModel();
-		model.setStrategyByName("this strategy name doesn't exist");
+		model.setStrategyByName(Type.BLACK, "this strategy name doesn't exist");
 	}
 	
 	@Test
@@ -27,11 +27,34 @@ public class OthelloModelTest
 				                    };
 		OthelloModel model = new OthelloModel();
 		model.addStrategy(new RandomSelectionSearchStrategy<OthelloStateExpandable>());
-		model.setStrategyByName(model.getStrategyNames()[0]);
+		model.setStrategyByName(Type.BLACK, model.getStrategyNames()[0]);
 		model.newGame(Type.WHITE);
 		assertEquals(Type.BLACK, model.getCurrentPlayer());
 		assertEquals(Type.WHITE, model.getPlayerColour());
 		assertArrayEquals(expected, model.getTokens());
+	}
+	
+	@Test
+	public void multipleGenerateMove() throws SearchStrategyDoesNotExistException, TokenAlreadyExistsInSquareException, OutOfOthelloBoardBoundsException, IllegalMoveException
+	{
+		OthelloModel model = new OthelloModel();
+		model.addStrategy(new RandomSelectionSearchStrategy<OthelloStateExpandable>());
+		model.setStrategyByName(Type.BLACK, model.getStrategyNames()[0]);
+		model.setStrategyByName(Type.WHITE, model.getStrategyNames()[0]);
+		model.newGame(Type.WHITE);
+		model.generateMove();
+		model.generateMove();
+		model.generateMove();
+		model.generateMove();
 		
+	}
+	
+	@Test
+	public void testGetWinner() throws OutOfOthelloBoardBoundsException, TokenAlreadyExistsInSquareException, IllegalMoveException
+	{
+		OthelloModel model = new OthelloModel();
+		model.newGame(Type.BLACK);
+		model.makeMove(4, 3);
+		assertEquals(Type.BLACK, model.getWinner());
 	}
 }

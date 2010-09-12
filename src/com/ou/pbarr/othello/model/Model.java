@@ -5,9 +5,6 @@ import com.ou.pbarr.othello.tree.SearchStrategy;
 
 public interface Model
 {
-
-	void setStrategyByName(String substring) throws SearchStrategyDoesNotExistException;
-
 	String[] getStrategyNames();
 	
 	Token[] getTokens();
@@ -35,4 +32,8 @@ public interface Model
 	Token getCurrentlySelectedSquare();
 
 	void setCurrentlySelectedSquare(int xSquare, int ySquare);
+
+	void setStrategyByName(Type type, String strategyName) throws SearchStrategyDoesNotExistException;
+	
+	Type getWinner();
 }

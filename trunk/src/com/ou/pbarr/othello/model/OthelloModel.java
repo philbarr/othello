@@ -20,7 +20,8 @@ public class OthelloModel implements Model
 	private Token.Type currentPlayerColour = Token.Type.BLACK; // black starts
 	private Token.Type playerColour = Token.Type.BLACK; // default to player starts as black
 	private OthelloState state = new OthelloState();
-	private SearchStrategy<OthelloStateExpandable> currentStrategy;
+	private SearchStrategy<OthelloStateExpandable> blackStrategy;
+	private SearchStrategy<OthelloStateExpandable> whiteStrategy;
 	private List<SearchStrategy<OthelloStateExpandable>> strategies = new ArrayList<SearchStrategy<OthelloStateExpandable>>();
 	private boolean isFinished = false;
 	private Token currentlySelectedSquare = null;
@@ -32,14 +33,21 @@ public class OthelloModel implements Model
 	 * @throws SearchStrategyDoesNotExistException
 	 */
 	@Override
-	public void setStrategyByName(String strategyName) throws SearchStrategyDoesNotExistException
+	public void setStrategyByName(Type type, String strategyName) throws SearchStrategyDoesNotExistException
 	{
 		boolean found = false;
 		for (SearchStrategy<OthelloStateExpandable> strategy : strategies)
 		{
 			if (strategyName.equals(strategy.getName()))
 			{
-				currentStrategy = strategy;
+				if (type == Type.BLACK)
+				{
+					blackStrategy = strategy;
+				}
+				else
+				{
+					whiteStrategy = strategy;
+				}
 				found = true;
 			}
 		}
@@ -51,12 +59,26 @@ public class OthelloModel implements Model
 
 	public SearchStrategy<OthelloStateExpandable> getCurrentStrategy()
 	{
-		return currentStrategy;
+		if (currentPlayerColour == Type.BLACK)
+		{
+			 return blackStrategy;
+		}
+		else
+		{
+			return whiteStrategy;
+		}
 	}
 
-	public void setCurrentStrategy(SearchStrategy<OthelloStateExpandable> currentStrategy)
+	public void setCurrentStrategy(Type type, SearchStrategy<OthelloStateExpandable> strategy)
 	{
-		this.currentStrategy = currentStrategy;
+		if (type == Type.BLACK)
+		{
+			blackStrategy = strategy;
+		}
+		else
+		{
+			whiteStrategy = strategy;
+		}
 	}
 
 	@Override
@@ -150,9 +172,10 @@ public class OthelloModel implements Model
 				OthelloStateExpandable state = node.getState();
 				boolean noMovesForBlack = state.getPossibleNextPositions(Type.BLACK).isEmpty();
 				boolean noMovesForWhite = state.getPossibleNextPositions(Type.WHITE).isEmpty();
-				boolean blackWins = state.getTokenCountFor(Type.BLACK) > state.getTokenCountFor(Type.WHITE);
+				Type otherColour = currentPlayerColour == Type.BLACK ? Type.WHITE : Type.BLACK;
+				boolean currentColourWins = state.getTokenCountFor(currentPlayerColour) > state.getTokenCountFor(otherColour);
 				
-				return noMovesForBlack &&	noMovesForWhite && blackWins;
+				return noMovesForBlack &&	noMovesForWhite && currentColourWins;
 			}});
 		Token token = tree.findNextState().getLastCreatedToken();
 		LOG.info(getCurrentStrategy().getName() + " played: " + token);
@@ -193,5 +216,21 @@ public class OthelloModel implements Model
 	public void setCurrentlySelectedSquare(int xSquare, int ySquare)
 	{
 		this.currentlySelectedSquare  = new Token(null, xSquare, ySquare);
+	}
+
+	@Override
+	public Type getWinner()
+	{
+		int whiteCount = getTokenCountFor(Type.WHITE);
+		int blackCount = getTokenCountFor(Type.BLACK);
+		if (whiteCount > blackCount)
+		{
+			return Type.WHITE;
+		}
+		else if (blackCount > whiteCount)
+		{
+			return Type.BLACK;
+		}
+		return null;
 	}
 }

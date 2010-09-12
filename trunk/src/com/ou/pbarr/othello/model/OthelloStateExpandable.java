@@ -64,7 +64,7 @@ public class OthelloStateExpandable extends OthelloState implements Expandable
 			{
 				LOG.severe("Unexpected exception expanding state: " + e.getMessage());
 			}
-			LOG.info("expanded state: " + newState);
+//			LOG.info("expanded state: " + newState);
 			states.add(newState);
 		}
 		return states.toArray(new OthelloStateExpandable[states.size()]);

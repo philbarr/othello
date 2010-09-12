@@ -1,7 +1,6 @@
 package com.ou.pbarr.othello.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -65,7 +64,7 @@ public class OthelloState
 		checkTokenSquareIsEmpty(token);
 
 		board[token.getX() - 1][token.getY() - 1] = token;
-		LOG.info("added token: " + token.getX() + ", " + token.getY());
+//		LOG.info("added token: " + token.getX() + ", " + token.getY());
 	}
 
 	/**

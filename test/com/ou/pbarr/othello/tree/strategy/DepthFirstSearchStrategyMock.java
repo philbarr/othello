@@ -1,7 +1,10 @@
-package com.ou.pbarr.othello.tree;
+package com.ou.pbarr.othello.tree.strategy;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.ou.pbarr.othello.tree.Tree;
+import com.ou.pbarr.othello.tree.Tree.Node;
 
 public class DepthFirstSearchStrategyMock<T> extends DepthFirstSearchStrategy<T>
 {

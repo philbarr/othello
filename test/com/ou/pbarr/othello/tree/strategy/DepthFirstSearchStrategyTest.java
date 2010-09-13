@@ -1,10 +1,14 @@
-package com.ou.pbarr.othello.tree;
+package com.ou.pbarr.othello.tree.strategy;
 
 import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.ou.pbarr.othello.tree.Tree;
+import com.ou.pbarr.othello.tree.Tree.Node;
+import com.ou.pbarr.othello.tree.heuristic.Heuristic;
 
 public class DepthFirstSearchStrategyTest
 {
@@ -65,11 +69,11 @@ public class DepthFirstSearchStrategyTest
 	@Test
 	public void testFirstNodeIsGoal()
 	{
-		DepthFirstSearchStrategy<String> bfs = new DepthFirstSearchStrategy<String>();
+		DepthFirstSearchStrategy<String> dfs = new DepthFirstSearchStrategy<String>();
 		Tree<String> tree = new Tree<String>("goal");
 		List<Tree<String>.Node> expected = new ArrayList<Tree<String>.Node>();
 		expected.add(tree.getRoot());
-		assertEquals(expected, bfs.search(tree.getRoot(), tree.getRoot()));
+		assertEquals(expected, dfs.search(tree.getRoot(), tree.getRoot()));
 	}
 	
 	@Test
@@ -86,9 +90,13 @@ public class DepthFirstSearchStrategyTest
 		{
 
 			@Override
-			public boolean test(Tree<String>.Node node)
+			public int test(Tree<String>.Node node)
 			{
-				return node.getState().endsWith("B");
+				if (node.getState().endsWith("B"))
+				{
+					return 1;
+				}
+				return 0;
 			}
 			
 		};

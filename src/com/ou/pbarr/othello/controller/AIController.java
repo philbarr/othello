@@ -4,7 +4,7 @@ import com.ou.pbarr.othello.gui.View;
 import com.ou.pbarr.othello.model.Model;
 import com.ou.pbarr.othello.model.OthelloStateExpandable;
 import com.ou.pbarr.othello.model.Token.Type;
-import com.ou.pbarr.othello.tree.SearchStrategy;
+import com.ou.pbarr.othello.tree.strategy.SearchStrategy;
 
 public class AIController implements Controller
 {

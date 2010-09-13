@@ -1,6 +1,10 @@
-package com.ou.pbarr.othello.tree;
+package com.ou.pbarr.othello.tree.strategy;
 
 import java.util.List;
+
+import com.ou.pbarr.othello.tree.Tree;
+import com.ou.pbarr.othello.tree.Tree.Node;
+import com.ou.pbarr.othello.tree.heuristic.Heuristic;
 
 
 public abstract class SearchStrategy<T>
@@ -15,11 +19,19 @@ public abstract class SearchStrategy<T>
 		return search(start, new Heuristic<T>(){
 
 			@Override
-			public boolean test(Tree<T>.Node node)
+			public int test(Tree<T>.Node node)
 			{
-				return node.equals(goal);
+				if (node.equals(goal))
+				{
+					return 1;
+				}
+				else
+				{
+					return 0;
+				}
 			}
 		});
+			
 	}
 
 	public abstract String getName();

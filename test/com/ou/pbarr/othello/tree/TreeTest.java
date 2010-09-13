@@ -11,6 +11,10 @@ import com.ou.pbarr.othello.model.OutOfOthelloBoardBoundsException;
 import com.ou.pbarr.othello.model.Token;
 import com.ou.pbarr.othello.model.TokenAlreadyExistsInSquareException;
 import com.ou.pbarr.othello.model.Token.Type;
+import com.ou.pbarr.othello.tree.heuristic.Heuristic;
+import com.ou.pbarr.othello.tree.strategy.BreadthFirstSearchStrategy;
+import com.ou.pbarr.othello.tree.strategy.DepthFirstSearchStrategy;
+import com.ou.pbarr.othello.tree.strategy.RandomSelectionSearchStrategy;
 
 public class TreeTest
 {
@@ -87,14 +91,17 @@ public class TreeTest
 		tree.setHeuristic(new Heuristic<OthelloStateExpandable>(){
 
 			@Override
-			public boolean test(Tree<OthelloStateExpandable>.Node node)
+			public int test(Tree<OthelloStateExpandable>.Node node)
 			{
 				OthelloStateExpandable state = node.getState();
 				boolean noMovesForBlack = state.getPossibleNextPositions(Type.BLACK).isEmpty();
 				boolean noMovesForWhite = state.getPossibleNextPositions(Type.WHITE).isEmpty();
 				boolean blackWins = state.getTokenCountFor(Type.BLACK) > state.getTokenCountFor(Type.WHITE);
-				
-				return noMovesForBlack &&	noMovesForWhite && blackWins;
+				if ( noMovesForBlack &&	noMovesForWhite && blackWins)
+				{
+					return 1;
+				}
+				return 0;
 			}});
 		
 		OthelloStateExpandable newState = tree.findNextState();

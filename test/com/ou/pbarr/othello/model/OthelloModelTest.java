@@ -3,7 +3,7 @@ package com.ou.pbarr.othello.model;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import com.ou.pbarr.othello.model.Token.Type;
-import com.ou.pbarr.othello.tree.RandomSelectionSearchStrategy;
+import com.ou.pbarr.othello.tree.strategy.RandomSelectionSearchStrategy;
 
 
 public class OthelloModelTest

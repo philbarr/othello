@@ -1,8 +1,12 @@
-package com.ou.pbarr.othello.tree;
+package com.ou.pbarr.othello.tree.strategy;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import com.ou.pbarr.othello.tree.Tree;
+import com.ou.pbarr.othello.tree.Tree.Node;
+import com.ou.pbarr.othello.tree.heuristic.Heuristic;
 
 /**
  * A depth first strategy for use with {@link Tree}. The strategy does not record
@@ -23,6 +27,7 @@ public class DepthFirstSearchStrategy<T> extends SearchStrategy<T>
 	 * @param goal the goal node
 	 * @return the path to the goal, or an empty List if one was not found.
 	 */
+	@Override
 	public List<Tree<T>.Node> search(Tree<T>.Node start, Heuristic<T> heuristic)
 	{
 		this.heuristic = heuristic;
@@ -34,7 +39,7 @@ public class DepthFirstSearchStrategy<T> extends SearchStrategy<T>
 	protected Tree<T>.Node find(Tree<T>.Node node)
 	{
 		// if we are at the goal, add it to the agenda and return it
-		if (heuristic.test(node))
+		if (heuristic.test(node) > 0)
 		{
 			agenda.add(node);
 			return node;

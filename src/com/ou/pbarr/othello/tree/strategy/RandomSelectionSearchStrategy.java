@@ -1,8 +1,12 @@
-package com.ou.pbarr.othello.tree;
+package com.ou.pbarr.othello.tree.strategy;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import com.ou.pbarr.othello.tree.Tree;
+import com.ou.pbarr.othello.tree.Tree.Node;
+import com.ou.pbarr.othello.tree.heuristic.Heuristic;
 
 /**
  * A Random Search Strategy for use with {@link Tree}. This makes completely random

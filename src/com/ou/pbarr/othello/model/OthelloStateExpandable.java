@@ -12,6 +12,11 @@ public class OthelloStateExpandable extends OthelloState implements Expandable
 	private Token lastCreatedToken = null;
 	private Type typeToExpandFor;
 	
+	public Type getTypeToExpandFor()
+	{
+		return typeToExpandFor;
+	}
+
 	public OthelloStateExpandable(Type typeToExpandFor)
 	{
 		this(typeToExpandFor, DEFAULT_OTHELLO_BOARD_SIZE);

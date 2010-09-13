@@ -1,7 +1,11 @@
-package com.ou.pbarr.othello.tree;
+package com.ou.pbarr.othello.tree.strategy;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.ou.pbarr.othello.tree.Tree;
+import com.ou.pbarr.othello.tree.Tree.Node;
+import com.ou.pbarr.othello.tree.heuristic.Heuristic;
 
 public class BreadthFirstSearchStrategy<T> extends SearchStrategy<T>
 {
@@ -28,7 +32,7 @@ public class BreadthFirstSearchStrategy<T> extends SearchStrategy<T>
 			
 			for (Tree<T>.Node child : parent.getChildren())
 			{
-				if (heuristic.test(child))
+				if (heuristic.test(child) > 0)
 				{
 					agenda.add(child);
 					return parent;

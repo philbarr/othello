@@ -6,8 +6,8 @@ import com.ou.pbarr.othello.gui.ConsoleView;
 import com.ou.pbarr.othello.model.OthelloModel;
 import com.ou.pbarr.othello.model.OthelloStateExpandable;
 import com.ou.pbarr.othello.model.Token.Type;
-import com.ou.pbarr.othello.tree.DepthFirstSearchStrategy;
-import com.ou.pbarr.othello.tree.RandomSelectionSearchStrategy;
+import com.ou.pbarr.othello.tree.strategy.DepthFirstSearchStrategy;
+import com.ou.pbarr.othello.tree.strategy.RandomSelectionSearchStrategy;
 
 public class ConsoleMain
 {

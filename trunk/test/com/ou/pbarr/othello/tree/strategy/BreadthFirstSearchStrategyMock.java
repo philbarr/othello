@@ -1,8 +1,11 @@
-package com.ou.pbarr.othello.tree;
+package com.ou.pbarr.othello.tree.strategy;
 
 import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.ou.pbarr.othello.tree.Tree;
+import com.ou.pbarr.othello.tree.Tree.Node;
 
 public class BreadthFirstSearchStrategyMock<T> extends BreadthFirstSearchStrategy<T>
 {

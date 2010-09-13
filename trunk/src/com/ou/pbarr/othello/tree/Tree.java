@@ -3,6 +3,9 @@ package com.ou.pbarr.othello.tree;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ou.pbarr.othello.tree.heuristic.Heuristic;
+import com.ou.pbarr.othello.tree.strategy.SearchStrategy;
+
 public class Tree<T>
 {
 	private Heuristic<T> heuristic;

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import com.ou.pbarr.othello.model.Token.Type;
-import com.ou.pbarr.othello.tree.Heuristic;
-import com.ou.pbarr.othello.tree.SearchStrategy;
 import com.ou.pbarr.othello.tree.Tree;
+import com.ou.pbarr.othello.tree.heuristic.Heuristic;
+import com.ou.pbarr.othello.tree.strategy.SearchStrategy;
 
 /**
  * Stores information about the application state, including the state of the
@@ -163,11 +163,20 @@ public class OthelloModel implements Model
 		currentState.setTokens(this.getTokens());
 		Tree<OthelloStateExpandable> tree = new Tree<OthelloStateExpandable>(currentState);
 		tree.setStrategy(getCurrentStrategy());
-		//TODO pluggable heuristic
-		tree.setHeuristic(new Heuristic<OthelloStateExpandable>(){
+		tree.setHeuristic(getHeuristic());
+		Token token = tree.findNextState().getLastCreatedToken();
+		LOG.info(getCurrentStrategy().getName() + " played: " + token);
+		state.playToken(token);
+		flipCurrentPlayer();
+	}
+
+	//TODO pluggable heuristic
+	public Heuristic<OthelloStateExpandable> getHeuristic()
+	{
+		return new Heuristic<OthelloStateExpandable>(){
 
 			@Override
-			public boolean test(Tree<OthelloStateExpandable>.Node node)
+			public int test(Tree<OthelloStateExpandable>.Node node)
 			{
 				OthelloStateExpandable state = node.getState();
 				boolean noMovesForBlack = state.getPossibleNextPositions(Type.BLACK).isEmpty();
@@ -175,12 +184,12 @@ public class OthelloModel implements Model
 				Type otherColour = currentPlayerColour == Type.BLACK ? Type.WHITE : Type.BLACK;
 				boolean currentColourWins = state.getTokenCountFor(currentPlayerColour) > state.getTokenCountFor(otherColour);
 				
-				return noMovesForBlack &&	noMovesForWhite && currentColourWins;
-			}});
-		Token token = tree.findNextState().getLastCreatedToken();
-		LOG.info(getCurrentStrategy().getName() + " played: " + token);
-		state.playToken(token);
-		flipCurrentPlayer();
+				if (noMovesForBlack &&	noMovesForWhite && currentColourWins)
+				{
+					return 1;
+				}
+				return 0;
+			}};
 	}
 
 	@Override

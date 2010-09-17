@@ -1,8 +1,18 @@
 package com.ou.pbarr.othello.gui;
 
+import com.ou.pbarr.othello.model.Model;
+import com.ou.pbarr.othello.model.Token.Type;
+
 
 public class ConsoleView implements View
 {
+	private Model model;
+	
+	public ConsoleView(Model model)
+	{
+		this.model = model;
+	}
+	
 	@Override
 	public String askForHumanPlayerColour()
 	{
@@ -32,8 +42,10 @@ public class ConsoleView implements View
 	@Override
 	public void updateBoard()
 	{
-		// TODO Auto-generated method stub
-
+		int whiteCount = model.getTokenCountFor(Type.WHITE);
+		int blackCount = model.getTokenCountFor(Type.BLACK);
+		System.out.println("WHITE: " + whiteCount + "\nBLACK: " + blackCount);
+		
 	}
 
 }

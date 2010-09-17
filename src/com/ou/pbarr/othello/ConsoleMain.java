@@ -47,7 +47,7 @@ public class ConsoleMain
 		// set up the view - telling it about the controller to send actions to,
 		// and the model to get data from. And tell the controller about the view
 		// so that it can act upon it.
-		ConsoleView othelloConsole = new ConsoleView();
+		ConsoleView othelloConsole = new ConsoleView(model);
 		controller.setView(othelloConsole);
 		controller.setStrategies(new DepthFirstSearchStrategy<OthelloStateExpandable>(), new RandomSelectionSearchStrategy<OthelloStateExpandable>());
 		

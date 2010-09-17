@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--AgileJ Ltd. (http://www.agilej.com)-->
+<ajsv>
+    <diagram style="hideAllMembersDiagramStyle" version="1.7.0.v20100225-1415">
+        <switch switchID="howToShowDependenciesOptions" switchValue="manhattan"/>
+        <class className="com.ou.pbarr.othello.tree.strategy.BreadthFirstSearchStrategy" project="Othello" xLocation="238" yLocation="584"/>
+        <class className="com.ou.pbarr.othello.tree.strategy.DepthFirstLimitedSearchStrategy" project="Othello" xLocation="487" yLocation="637"/>
+        <class className="com.ou.pbarr.othello.tree.strategy.DepthFirstSearchStrategy" project="Othello" xLocation="556" yLocation="586"/>
+        <class className="com.ou.pbarr.othello.tree.strategy.RandomSelectionSearchStrategy" project="Othello" xLocation="234" yLocation="641"/>
+        <class className="com.ou.pbarr.othello.tree.strategy.SearchStrategy" project="Othello" xLocation="467" yLocation="415"/>
+        <class className="com.ou.pbarr.othello.model.OthelloModel" project="Othello" xLocation="482" yLocation="266"/>
+    </diagram>
+</ajsv>

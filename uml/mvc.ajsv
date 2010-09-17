@@ -6,7 +6,7 @@
         <switch switchID="howToShowFieldLinesOptions" switchValue="straight"/>
         <switch switchID="howToShowInheritanceOptions" switchValue="straight"/>
         <class className="com.ou.pbarr.othello.gui.View" project="Othello" xLocation="288" yLocation="-176"/>
-        <class className="com.ou.pbarr.othello.gui.OthelloViewFrame" project="Othello" xLocation="242" yLocation="43"/>
+        <class className="com.ou.pbarr.othello.gui.OthelloViewFrame" project="Othello" xLocation="299" yLocation="45"/>
         <class className="com.ou.pbarr.othello.controller.Controller" project="Othello" xLocation="0" yLocation="-182"/>
         <class className="com.ou.pbarr.othello.controller.AIController" project="Othello" xLocation="61" yLocation="44"/>
         <class className="com.ou.pbarr.othello.model.Model" project="Othello" xLocation="520" yLocation="-172"/>
@@ -14,5 +14,6 @@
         <class className="com.ou.pbarr.othello.controller.SimpleController" project="Othello" xLocation="-119" yLocation="37"/>
         <class className="com.ou.pbarr.othello.model.OthelloState" project="Othello" xLocation="491" yLocation="203"/>
         <class className="com.ou.pbarr.othello.gui.OthelloBoardPanel" project="Othello" xLocation="230" yLocation="196"/>
+        <class className="com.ou.pbarr.othello.gui.ConsoleView" project="Othello" xLocation="182" yLocation="46"/>
     </diagram>
 </ajsv>

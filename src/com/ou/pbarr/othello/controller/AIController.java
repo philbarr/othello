@@ -63,18 +63,11 @@ public class AIController implements Controller
 			{
 				model.generateMove();
 			}
-			int whiteCount = model.getTokenCountFor(Type.WHITE);
-			int blackCount = model.getTokenCountFor(Type.BLACK);
-			String winner = "DRAW";
-			if (whiteCount > blackCount)
-			{
-				winner = "WHITE";
-			}
-			else if (blackCount > whiteCount)
-			{
-				winner = "BLACK";
-			}
-			view.setInfoMessage("Game finished: \nWHITE: " + whiteCount + "\nBLACK: " + blackCount + "\nWinner: " + winner);			
+			
+			view.updateBoard();
+			
+			String winner = model.getWinner() == null? "DRAW" : model.getWinner().toString();
+			view.setInfoMessage("Game finished!\nWinner: " + winner);			
 			quit();
 		}
 		catch (Exception e)

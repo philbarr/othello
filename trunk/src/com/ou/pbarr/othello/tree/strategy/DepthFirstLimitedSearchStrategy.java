@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import com.ou.pbarr.othello.tree.Tree;
-import com.ou.pbarr.othello.tree.Tree.Node;
 import com.ou.pbarr.othello.tree.heuristic.Heuristic;
 
 public class DepthFirstLimitedSearchStrategy<T> extends SearchStrategy<T>
@@ -29,9 +28,19 @@ public class DepthFirstLimitedSearchStrategy<T> extends SearchStrategy<T>
 	@Override
 	public List<Tree<T>.Node> search(Tree<T>.Node start, Heuristic<T> heuristic)
 	{
+		agenda = new ArrayList<Tree<T>.Node>();
 		this.heuristic = heuristic;
 		find(start, 1);
-		Collections.reverse(agenda);
+		if (agenda.size() > 0)
+		{
+			Collections.reverse(agenda);
+		}
+		else
+		{
+			Collections.shuffle(start.getChildren());
+			agenda.add(start);
+			agenda.add(start.getChildren().get(0));
+		}
 		return agenda;
 	}
 
@@ -43,7 +52,7 @@ public class DepthFirstLimitedSearchStrategy<T> extends SearchStrategy<T>
 		}
 		
 		// if we are at the goal, add it to the agenda and return it
-		if (heuristic.test(node) > 1)
+		if (heuristic.test(node) > 0)
 		{
 			agenda.add(node);
 			return node;

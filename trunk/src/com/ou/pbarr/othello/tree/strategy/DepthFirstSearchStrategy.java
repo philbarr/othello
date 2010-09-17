@@ -30,9 +30,19 @@ public class DepthFirstSearchStrategy<T> extends SearchStrategy<T>
 	@Override
 	public List<Tree<T>.Node> search(Tree<T>.Node start, Heuristic<T> heuristic)
 	{
+		agenda = new ArrayList<Tree<T>.Node>();
 		this.heuristic = heuristic;
 		find(start);
-		Collections.reverse(agenda);
+		if (agenda.size() > 0)
+		{
+			Collections.reverse(agenda);
+		}
+		else
+		{
+			Collections.shuffle(start.getChildren());
+			agenda.add(start);
+			agenda.add(start.getChildren().get(0));
+		}
 		return agenda;
 	}
 	

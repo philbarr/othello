@@ -80,6 +80,7 @@ public class AIController implements Controller
 		catch (Exception e)
 		{
 			view.displayError("Failed: " + e.getMessage());
+			throw new RuntimeException(e);
 		}
 	}
 

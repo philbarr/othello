@@ -1,6 +1,7 @@
 package com.ou.pbarr.othello;
 
 import java.util.logging.LogManager;
+
 import com.ou.pbarr.othello.controller.AIController;
 import com.ou.pbarr.othello.gui.ConsoleView;
 import com.ou.pbarr.othello.model.OthelloModel;

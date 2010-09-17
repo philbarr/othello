@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--AgileJ Ltd. (http://www.agilej.com)-->
+<ajsv>
+    <diagram style="hideAllMembersDiagramStyle" version="1.7.0.v20100225-1415">
+        <switch switchID="howToShowDependenciesOptions" switchValue="hidden"/>
+        <switch switchID="howToShowFieldLinesOptions" switchValue="straight"/>
+        <switch switchID="howToShowInheritanceOptions" switchValue="straight"/>
+        <class className="com.ou.pbarr.othello.gui.View" project="Othello" xLocation="288" yLocation="-176"/>
+        <class className="com.ou.pbarr.othello.gui.OthelloViewFrame" project="Othello" xLocation="242" yLocation="43"/>
+        <class className="com.ou.pbarr.othello.controller.Controller" project="Othello" xLocation="0" yLocation="-182"/>
+        <class className="com.ou.pbarr.othello.controller.AIController" project="Othello" xLocation="61" yLocation="44"/>
+        <class className="com.ou.pbarr.othello.model.Model" project="Othello" xLocation="520" yLocation="-172"/>
+        <class className="com.ou.pbarr.othello.model.OthelloModel" project="Othello" xLocation="492" yLocation="41"/>
+        <class className="com.ou.pbarr.othello.controller.SimpleController" project="Othello" xLocation="-119" yLocation="37"/>
+        <class className="com.ou.pbarr.othello.model.OthelloState" project="Othello" xLocation="491" yLocation="203"/>
+        <class className="com.ou.pbarr.othello.gui.OthelloBoardPanel" project="Othello" xLocation="230" yLocation="196"/>
+    </diagram>
+</ajsv>

@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
-
 import com.ou.pbarr.othello.tree.Tree;
-import com.ou.pbarr.othello.tree.Tree.Node;
 import com.ou.pbarr.othello.tree.heuristic.Heuristic;
 
 public class DepthFirstSearchStrategyTest
@@ -63,7 +61,9 @@ public class DepthFirstSearchStrategyTest
 	public void testNodeDoesNotExist()
 	{
 		DepthFirstSearchStrategy<String> dfs = new DepthFirstSearchStrategy<String>();
-		assertEquals(new ArrayList<Tree<String>.Node>(), dfs.search(tree.getRoot(), tree.new Node("notInTree")));
+		List<Tree<String>.Node> actual = dfs.search(tree.getRoot(), tree.new Node("notInTree"));
+		assertNotNull(actual);
+		assertTrue(actual.size() > 0);
 	}
 	
 	@Test

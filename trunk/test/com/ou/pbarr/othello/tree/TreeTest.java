@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import com.ou.pbarr.othello.model.OthelloStateExpandable;
 import com.ou.pbarr.othello.model.OutOfOthelloBoardBoundsException;
@@ -12,7 +11,6 @@ import com.ou.pbarr.othello.model.Token;
 import com.ou.pbarr.othello.model.TokenAlreadyExistsInSquareException;
 import com.ou.pbarr.othello.model.Token.Type;
 import com.ou.pbarr.othello.tree.heuristic.Heuristic;
-import com.ou.pbarr.othello.tree.strategy.BreadthFirstSearchStrategy;
 import com.ou.pbarr.othello.tree.strategy.DepthFirstSearchStrategy;
 import com.ou.pbarr.othello.tree.strategy.RandomSelectionSearchStrategy;
 
@@ -38,16 +36,6 @@ public class TreeTest
 		expected.add(maker.n100);
 		
 		assertEquals(expected, dfs.search(maker.tree.getRoot(), maker.n100));
-	}
-	@Test @Ignore
-	public void testBreadthFirstStrategy()
-	{
-		BreadthFirstSearchStrategy<Integer> bfs = new BreadthFirstSearchStrategy<Integer>();
-		List<Tree<Integer>.Node> expected = new ArrayList<Tree<Integer>.Node>();
-		expected.add(maker.tree.getRoot());
-		expected.add(maker.n3);
-		expected.add(maker.n100);
-		assertEquals(expected, bfs.search(maker.tree.getRoot(), maker.n100));
 	}
 	
 	@Test

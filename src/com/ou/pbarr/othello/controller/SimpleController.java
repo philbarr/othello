@@ -118,7 +118,8 @@ public class SimpleController implements Controller
 	{
 		try
 		{
-			model.setStrategyByName(model.getPlayerColour(), text);
+			Type otherColour = model.getPlayerColour() == Type.BLACK ? Type.WHITE : Type.BLACK;
+			model.setStrategyByName(otherColour, text);
 			LOG.info("set strategy on model:" + text);
 		}
 		catch (SearchStrategyDoesNotExistException e)

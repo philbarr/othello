@@ -78,7 +78,7 @@ public class MinimaxSearchStrategy<T> extends SearchStrategy<T>
 		
 		//get all the children, sort by their heuristic value, and return the MIN or MAX
 		//depending on where we are in the depth
-		if (depth % 2 == 0) // opposing player, get MIN
+		if ((depth-1) % 2 == 0) // opposing player, get MIN
 		{
 			return min;
 		}

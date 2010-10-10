@@ -52,7 +52,7 @@ public class OthelloViewFrame extends JFrame implements View, ActionListener,
 		this.setJMenuBar(getFileMenu());
 		this.setContentPane(getMainPanel());
 		this.setSize(400, 400);
-		this.setTitle("Othello");
+		this.setTitle("Othello AI Game");
 		this.setVisible(true);
 		LOG.info("OthelloMainFrame constructed");
 	}

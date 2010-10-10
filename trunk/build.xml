@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="all" name="Create Artifacts for Project Othello">
+
+	<property name="othello.build" location="${basedir}/build"/>
+	<property name="othello.classes" location="${othello.build}/classes"/>
+	<property name="othello.bin" location="${othello.build}/bin"/>
+	<property name="othello.build.jar" location="${othello.bin}/othello.jar" />
+	<property name="othello.src.zip" location="${othello.bin}/othello-src.zip" />
+
+	<target name="all" depends="create.src.zip, create.run.jar" />	
+	
+	<target name="init">
+		<echo message="${java.class.path}" />
+		<delete dir="${othello.build}"/>
+
+		<mkdir dir="${othello.classes}"/>
+		<mkdir dir="${othello.bin}"/>
+	</target>
+		
+	<target name="othello.compile">
+		<echo message="${basedir}" />
+			<echo message="${othello.classes}" />
+		<javac target="1.6" srcdir="${basedir}/src"
+         destdir="${othello.classes}"
+         classpath="${basedir}/src"
+         debug="on" />
+	</target>
+	
+	<target name="create.run.jar" depends="othello.compile">
+		<jar destfile="${othello.build.jar}" filesetmanifest="mergewithoutmain">
+			<manifest>
+				<attribute name="Main-Class" value="com.ou.pbarr.othello.Main" />
+				<attribute name="Class-Path" value="." />
+			</manifest>
+			<fileset dir="${othello.classes}" />
+		</jar>
+	</target>
+
+	<target name="create.src.zip" depends="init">
+		<zip destfile="${othello.src.zip}" 
+			basedir="${basedir}"
+			includes="**/*" 
+			excludes="build/, bin/"/>
+	</target>
+</project>

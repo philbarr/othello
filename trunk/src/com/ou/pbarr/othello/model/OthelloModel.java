@@ -6,6 +6,8 @@ import java.util.logging.Logger;
 import com.ou.pbarr.othello.model.Token.Type;
 import com.ou.pbarr.othello.tree.Tree;
 import com.ou.pbarr.othello.tree.heuristic.Heuristic;
+import com.ou.pbarr.othello.tree.heuristic.SumValueHeuristic;
+import com.ou.pbarr.othello.tree.strategy.MinimaxSearchStrategy;
 import com.ou.pbarr.othello.tree.strategy.SearchStrategy;
 
 /**
@@ -173,6 +175,11 @@ public class OthelloModel implements Model
 	//TODO pluggable heuristic
 	public Heuristic<OthelloStateExpandable> getHeuristic()
 	{
+		if (getCurrentStrategy() instanceof MinimaxSearchStrategy<?>)
+		{
+			return new SumValueHeuristic();
+		}
+		
 		return new Heuristic<OthelloStateExpandable>(){
 
 			@Override

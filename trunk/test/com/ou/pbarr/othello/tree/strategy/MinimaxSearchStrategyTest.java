@@ -13,7 +13,7 @@ public class MinimaxSearchStrategyTest
 	
 	@Before
 	/*
-	 * Creates a tree like
+	 * Creates a tree that should be evaluated as:
 	 *              4                   
 	 *      -5               4          MAX lev 1
 	 *   10   -5        6       4       MIN lev 2
@@ -21,12 +21,12 @@ public class MinimaxSearchStrategyTest
 	 */
 	public void setUp()
 	{
-		Tree<Integer>.Node n1a = tree.getRoot().addChild(-5);
-		Tree<Integer>.Node n1b = tree.getRoot().addChild(4);
-		Tree<Integer>.Node n2a = n1a.addChild(10);
-		Tree<Integer>.Node n2b = n1a.addChild(-5);
-		Tree<Integer>.Node n2c = n1b.addChild(6);
-		Tree<Integer>.Node n2d = n1b.addChild(4);
+		Tree<Integer>.Node n1a = tree.getRoot().addChild(0);
+		Tree<Integer>.Node n1b = tree.getRoot().addChild(0);
+		Tree<Integer>.Node n2a = n1a.addChild(0);
+		Tree<Integer>.Node n2b = n1a.addChild(0);
+		Tree<Integer>.Node n2c = n1b.addChild(0);
+		Tree<Integer>.Node n2d = n1b.addChild(0);
 		n2a.addChild(9);
 		n2a.addChild(10);
 		n2b.addChild(-5);
@@ -35,13 +35,12 @@ public class MinimaxSearchStrategyTest
 		n2c.addChild(3);
 		n2d.addChild(4);
 		n2d.addChild(1);
-		
 	}
 	
 	@Test
 	public void testMinimax()
 	{
-		MinimaxSearchStrategy<Integer> mss = new MinimaxSearchStrategy<Integer>(3);
+		MinimaxSearchStrategy<Integer> mss = new MinimaxSearchStrategy<Integer>(4);
 		List<Tree<Integer>.Node> actual = mss.search(tree.getRoot(), new Heuristic<Integer>()
 		{
 			@Override
